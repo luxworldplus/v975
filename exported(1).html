@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxworld Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.puter.com/v2/"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6;
+        }
+        .search-container {
+            background: linear-gradient(145deg, #7db145, #5f8a33);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .search-button {
+            background-color: #FFD700;
+            color: #4A5568;
+        }
+        .search-button:hover {
+            background-color: #f0c800;
+        }
+        .search-button:disabled {
+            background-color: #e0c000;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .ad-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border: 1px solid #e5e7eb;
+        }
+        .ad-card:hover {
+            transform: translateY(-2px);
+        }
+        .result-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .result-link {
+            color: #3B82F6;
+        }
+        .result-link:hover {
+            text-decoration: underline;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6D9F3C;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hidden-pixel {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+            clip: rect(0, 0, 0, 0);
+        }
+        .image-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .image-gallery-item {
+            aspect-ratio: 16 / 9;
+            background-color: #E5E7EB;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        #pointsBadge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+            transform: translateX(150%);
+            transition: transform 0.3s ease-out;
+        }
+        #pointsBadge.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8 relative">
+
+    <div id="hiddenProcessor"></div>
+
+    <div id="pointsBadge" class="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg font-bold flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-7.53 4.47a1 1 0 10-1.414 1.414 3 3 0 004.242 0 1 1 0 00-1.414-1.414 1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+        +5 Rewards Points Earned!
+    </div>
+
+    <div class="container mx-auto max-w-3xl relative">
+
+        <div class="flex justify-end mb-4">
+            <a href="https://rewards.bing.com/welcome?rh=41E13B2&ref=rafsrchae&form=ML2XE3&OCID=ML2XE3&PUBL=RewardsDO&CREA=ML2XE3" 
+               target="_blank" 
+               class="flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-700 text-xs font-bold py-2 px-4 rounded-full border border-gray-200 transition-colors shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#00a1f1">
+                    <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zM24 11.4H12.6V0H24v11.4z"/>
+                </svg>
+                Link Rewards & Earn 5 Points
+            </a>
+        </div>
+
+        <header class="text-center mb-8 pt-4">
+            <div class="inline-block p-4 rounded-3xl">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-24 h-24 mx-auto">
+                    <rect width="100" height="100" rx="20" fill="#93c363" />
+                    <g transform="translate(50 45) rotate(45)">
+                        <circle cx="0" cy="0" r="28" fill="none" stroke="#f0e34a" stroke-width="8" />
+                        <line x1="0" y1="26" x2="0" y2="40" stroke="#f0e34a" stroke-width="10" stroke-linecap="round" />
+                    </g>
+                    <g transform="translate(50 45) rotate(45) scale(0.7) translate(-25 -25)">
+                        <path fill="white" d="M47.25,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75V9.5c0-0.414-0.336-0.75-0.75-0.75s-0.75,0.336-0.75,0.75v8.5 c0,0.414-0.336,0.75-0.75,0.75h-8.5c-0.414,0-0.75,0.336-0.75,0.75v1.5c0,0.414,0.336,0.75,0.75,0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v8.5c0,0.414,0.336,0.75,0.75,0.75s0.75-0.336,0.75-0.75v-8.5c0-0.414,0.336,0.75,0.75-0.75h8.5 c0.414,0,0.75-0.336,0.75-0.75v-1.5C48,19.086,47.664,18.75,47.25,18.75z M25,48.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,48.586,24.586,48.25,25,48.25z M25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C24.25,42.586,24.586,42.25,25,42.25z M25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C24.25,36.586,24.586,36.25,25,36.25z M25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,30.586,24.586,30.25,25,30.25z M36.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C35.5,42.586,35.836,42.25,36.25,42.25z M36.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C35.5,36.586,35.836,36.25,36.25,36.25z M36.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C35.5,30.586,35.836,30.25,36.25,30.25z M47.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C46.5,42.586,46.836,42.25,47.25,42.25z M47.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C46.5,36.586,46.836,36.25,47.25,36.25z M47.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C46.5,30.586,46.836,30.25,47.25,30.25z M58.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C57.5,42.586,57.836,42.25,58.25,42.25z M58.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C57.5,36.586,57.836,36.25,58.25,36.25z M58.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C57.5,30.586,57.836,30.25,58.25,30.25z M18.75,24.25h-8.5 c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,23.914,19.164,24.25,18.75,24.25z M18.75,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75 v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5 C19.5,18.414,19.164,18.75,18.75,18.75z M18.75,13.25h-8.5c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75 s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,12.914,19.164,13.25,18.75,13.25z" />
+                    </g>
+                </svg>
+                <h1 class="text-3xl font-bold text-gray-800 tracking-wide mt-4 uppercase">Luxworld Search</h1>
+                <p class="text-sm font-medium text-gray-600 tracking-widest uppercase">By Luxworld+</p>
+            </div>
+        </header>
+
+        <div class="search-container p-4 sm:p-6 mb-8">
+            <div class="flex justify-center gap-4 sm:gap-6 mb-4">
+                <label class="flex items-center text-white font-medium cursor-pointer">
+                    <input type="radio" name="searchType" value="research" class="mr-2 h-4 w-4 accent-yellow-300" checked>
+                    Research
+                </label>
+                <label class="flex items-center text-white font-medium cursor-pointer">
+                    <input type="radio" name="searchType" value="domain" class="mr-2 h-4 w-4 accent-yellow-300">
+                    Find Website
+                </label>
+                <label class="flex items-center text-white font-medium cursor-pointer">
+                    <input type="radio" name="searchType" value="images" class="mr-2 h-4 w-4 accent-yellow-300">
+                    Images
+                </label>
+            </div>
+            
+            <p id="privateModeDisclaimer" class="text-center text-xs text-white/70 mb-4 tracking-wider uppercase font-bold italic">
+               Find Website Also Has Private Mode
+            </p>
+
+            <div class="flex flex-col gap-2">
+                <input type="text" id="searchInput" placeholder="Search brands, products, or facts..." class="w-full p-4 border-none rounded-xl focus:ring-4 focus:ring-yellow-300 focus:outline-none text-lg">
+                <button id="searchButton" class="w-full search-button p-4 rounded-xl font-bold text-lg shadow-md transition-transform transform hover:scale-[1.01] active:scale-95">
+                    Search
+                </button>
+            </div>
+        </div>
+
+        <main id="contentArea" class="mb-8">
+            <div id="adContainer" class="mb-8"></div>
+            <div id="resultsContainer"></div>
+            <div id="loader" class="hidden mx-auto loader"></div>
+        </main>
+
+        <footer class="text-center mt-12 text-gray-500 text-sm">
+            <p>Copyright by LUXWORLD+ &bull; Powered by Puter JS & Global Intelligence API</p>
+        </footer>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const adContainer = document.getElementById('adContainer');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const loader = document.getElementById('loader');
+        const hiddenProcessor = document.getElementById('hiddenProcessor');
+        const searchTypeRadios = document.querySelectorAll('input[name="searchType"]');
+        const pointsBadge = document.getElementById('pointsBadge');
+
+        const SELECTED_MODEL = 'gemini-2.5-flash';
+
+        // --- EXPANSIVE BANGS SYSTEM ---
+        const BANGS = {
+            "!g": "https://www.google.com/search?q=%s",
+            "!a": "https://www.amazon.com/s?k=%s",
+            "!eco": "https://www.ecosia.org/search?q=%s",
+            "!w": "https://www.walmart.com/search?q=%s",
+            "!t": "https://www.target.com/s?searchTerm=%s",
+            "!slick": "https://slickdeals.net/newsearch.php?src=SearchBarV2&q=%s",
+            "!r": "https://www.reddit.com/search/?q=%s",
+            "!reddit": "https://www.reddit.com/search/?q=%s",
+            "!p": "https://www.pinterest.com/search/pins/?q=%s",
+            "!pinterest": "https://www.pinterest.com/search/pins/?q=%s",
+            "!meta": "https://www.facebook.com/search/top/?q=%s",
+            "!fb": "https://www.facebook.com/search/top/?q=%s",
+            "!adobe": "https://www.adobe.com/search.html#q=%s",
+            "!startpage": "https://www.startpage.com/do/dsearch?query=%s",
+            "!sp": "https://www.startpage.com/do/dsearch?query=%s",
+            "!b": "https://www.bing.com/search?q=%s",
+            "!yt": "https://www.youtube.com/results?search_query=%s",
+            "!wiki": "https://en.wikipedia.org/wiki/Special:Search?search=%s",
+            "!gh": "https://github.com/search?q=%s",
+            "!ebay": "https://www.ebay.com/sch/i.html?_nkw=%s",
+            "!sp": "https://open.spotify.com/search/%s",
+            "!imdb": "https://www.imdb.com/find?q=%s",
+            "!map": "https://www.google.com/maps/search/%s",
+            "!nf": "https://www.netflix.com/search?q=%s",
+            "!insta": "https://www.instagram.com/explore/tags/%s/",
+            "!tr": "https://translate.google.com/?text=%s",
+            "!tk": "https://www.tiktok.com/search?q=%s",
+            "!so": "https://stackoverflow.com/search?q=%s",
+            "!steam": "https://store.steampowered.com/search/?term=%s",
+            "!apple": "https://www.apple.com/us/search/%s",
+            "!ms": "https://www.microsoft.com/en-us/search/explore?q=%s"
+        };
+
+        const REDIRECT_MAP = {
+            "luxworld+": "https://luxworldplus.com",
+            "luxworld plus": "https://luxworldplus.com",
+            "luxworld edu": "https://edu.luxworldplus.com",
+            "luxworld search": "https://search.luxworldplus.com",
+            "luxworld gaming": "https://gaming.luxworldplus.com",
+            "luxworld ai chat": "https://ai.luxworldplus.com",
+            "luxworld tech": "https://tech.luxworldplus.com",
+            "asm": "https://asm.luxworldplus.com",
+            "luxworld+ studio": "https://studio.luxworldplus.com",
+            "natural flow": "https://naturalflow.luxworldplus.com",
+            "luxpage": "https://page.luxworldplus.com",
+            "luxworld write": "https://write.luxworldplus.com",
+            "zero flow": "https://zeroflow.luxworldplus.com",
+            "super art": "https://art.luxworldplus.com",
+            "aurora browser": "https://aurora.luxworldplus.com",
+            "luxplayer": "https://player.luxworldplus.com",
+            "luxuryurlshortner": "https://lus.luxworldplus.com",
+            "luxdiscover": "https://ld.luxworldplus.com",
+            "loader": "https://loader.luxworldplus.com",
+            "loader edu": "https://edu.luxworldplus.com/loader-edu"
+        };
+
+        const ADS_LIST = [
+            { title: "Visit LUXWORLD+", description: "Luxury travel tips, points, and miles mastery.", url: "https://www.luxworldplus.com" },
+            { title: "AMEX Platinum Card", description: "Earn 80k points with the ultimate travel card.", url: "https://www.luxworldplus.com/offers/amex" },
+            { title: "Chase Sapphire", description: "The gold standard for travel rewards cards.", url: "https://www.luxworldplus.com/offers/chase" }
+        ];
+
+        async function fetchWithRetry(url, options = {}, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return await response.json();
+                } catch (e) {
+                    if (i === retries - 1) throw e;
+                    await new Promise(r => setTimeout(r, 1000 * Math.pow(2, i)));
+                }
+            }
+        }
+
+        function updateUIForMode() {
+            const mode = document.querySelector('input[name="searchType"]:checked').value;
+            searchButton.textContent = mode === 'domain' ? 'Intel Search' : 'Search';
+        }
+
+        searchTypeRadios.forEach(radio => radio.addEventListener('change', updateUIForMode));
+
+        function triggerHiddenPixel(query) {
+            const encoded = encodeURIComponent(query);
+            let pixel = document.getElementById(`bingPixel`);
+            if (!pixel) {
+                pixel = document.createElement('iframe');
+                pixel.id = `bingPixel`;
+                pixel.className = 'hidden-pixel';
+                hiddenProcessor.appendChild(pixel);
+            }
+            pixel.src = `https://www.bing.com/search?q=${encoded}`;
+            pointsBadge.classList.add('show');
+            setTimeout(() => pointsBadge.classList.remove('show'), 4000);
+        }
+
+        function displayRandomAd() {
+            const ad = ADS_LIST[Math.floor(Math.random() * ADS_LIST.length)];
+            adContainer.innerHTML = `
+                <div class="ad-card p-4">
+                    <a href="${ad.url}" target="_blank" rel="noopener">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">AD</span>
+                            <span class="font-bold text-gray-800">${ad.title}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1 pl-10">${ad.description}</p>
+                    </a>
+                </div>`;
+            adContainer.classList.remove('hidden');
+        }
+
+        function extractText(resp) {
+            if (typeof resp === 'string') return resp;
+            return resp?.message?.content || resp?.text || JSON.stringify(resp);
+        }
+
+        async function handleSearch() {
+            const rawQuery = searchInput.value.trim();
+            if (!rawQuery) return;
+
+            const parts = rawQuery.split(' ');
+            const bang = parts[0].toLowerCase();
+            const term = parts.slice(1).join(' ').trim();
+
+            // --- BANGS / LUCKY LOGIC ---
+            if (bang.startsWith('!')) {
+                // Standalone "!" followed by query is I'm Feeling Lucky
+                if (bang === '!' && term) {
+                    triggerHiddenPixel(rawQuery);
+                    // Standard Google Feeling Lucky is the most reliable fallback
+                    window.open(`https://www.google.com/search?q=${encodeURIComponent(term)}&btnI=1`, '_blank');
+                    return;
+                }
+
+                // Check for predefined bangs
+                if (BANGS[bang]) {
+                    triggerHiddenPixel(rawQuery);
+                    window.open(BANGS[bang].replace('%s', encodeURIComponent(term || ' ')), '_blank');
+                    return;
+                }
+            }
+
+            // --- REDIRECT LOGIC ---
+            if (REDIRECT_MAP[rawQuery.toLowerCase()]) {
+                triggerHiddenPixel(rawQuery);
+                window.open(REDIRECT_MAP[rawQuery.toLowerCase()], '_blank');
+                return;
+            }
+
+            triggerHiddenPixel(rawQuery);
+            const searchType = document.querySelector('input[name="searchType"]:checked').value;
+            
+            resultsContainer.innerHTML = '';
+            loader.classList.remove('hidden');
+            searchButton.disabled = true;
+
+            try {
+                if (searchType === 'research') {
+                    const prompt = `Act as a luxury travel consultant for Luxworld+. Research: "${rawQuery}". Provide a detailed overview including top destinations, exclusive tips, and prestige levels. Use clear paragraphs.`;
+                    const resp = await puter.ai.chat(prompt, { model: SELECTED_MODEL });
+                    resultsContainer.innerHTML = `
+                        <div class="result-card p-6">
+                            <h2 class="text-xl font-bold mb-3 border-b pb-2">Luxworld AI Intelligence</h2>
+                            <p class="text-gray-700 whitespace-pre-line leading-relaxed">${extractText(resp)}</p>
+                        </div>`;
+                } else if (searchType === 'domain') {
+                    try {
+                        const dataList = await fetchWithRetry(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${encodeURIComponent(rawQuery)}`);
+                        if (dataList && dataList.length > 0) {
+                            displayDomainResults(dataList);
+                        } else {
+                            resultsContainer.innerHTML = `<div class="result-card p-6 text-center text-gray-500 italic">No official corporate records found for "${rawQuery}".</div>`;
+                        }
+                    } catch (e) {
+                        resultsContainer.innerHTML = `<div class="result-card p-6 text-red-600 text-center">Service reached capacity. Please try again.</div>`;
+                    }
+                } else {
+                    const img = await puter.ai.txt2img(`Cinematic luxury photography of ${rawQuery}, 8k resolution, elegant travel aesthetic, realistic lighting`);
+                    resultsContainer.innerHTML = `
+                        <div class="result-card p-6">
+                            <h2 class="text-xl font-bold mb-4 border-b pb-2">Visual Insight</h2>
+                            <div class="image-gallery-grid">
+                                <div class="image-gallery-item" style="background-image: url('${img.src}')"></div>
+                            </div>
+                        </div>`;
+                }
+            } catch (error) {
+                resultsContainer.innerHTML = `<div class="result-card p-6 text-red-600">Error: Intelligence service could not complete the request.</div>`;
+            } finally {
+                loader.classList.add('hidden');
+                displayRandomAd();
+                searchButton.disabled = false;
+            }
+        }
+
+        function displayDomainResults(dataList) {
+            const main = dataList[0];
+            const related = dataList.slice(1, 6);
+            const url = `https://${main.domain}`;
+            const proxy = `https://${main.domain.replace(/\./g, '-')}.translate.goog`;
+            
+            let html = `
+                <div class="result-card p-8 flex flex-col items-center">
+                    <img src="${main.logo}" class="w-20 h-20 rounded-2xl mb-4 bg-white p-1 border shadow-sm" onerror="this.style.display='none'">
+                    <h2 class="text-2xl font-bold mb-1 text-gray-800">${main.name}</h2>
+                    <a href="${url}" target="_blank" class="result-link text-xl font-semibold mb-6">${main.domain}</a>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md">
+                        <a href="${url}" target="_blank" class="flex-grow bg-green-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-green-700 shadow-md text-center">Visit Site</a>
+                        <a href="${proxy}" target="_blank" class="flex-grow bg-blue-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-blue-700 shadow-md text-center">Private Mode</a>
+                    </div>`;
+
+            if (related.length > 0) {
+                html += `
+                    <div class="mt-8 w-full border-t pt-6 text-left">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Related Results</h3>
+                        <div class="space-y-3">
+                            ${related.map(item => `
+                                <a href="https://${item.domain}" target="_blank" class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-xl transition border border-transparent hover:border-gray-100">
+                                    <div class="flex items-center gap-3">
+                                        <img src="${item.logo}" class="w-8 h-8 rounded bg-white p-0.5 border" onerror="this.src='https://ui-avatars.com/api/?name=${item.name}'">
+                                        <div>
+                                            <div class="text-sm font-bold text-gray-700">${item.name}</div>
+                                            <div class="text-xs text-blue-500">${item.domain}</div>
+                                        </div>
+                                    </div>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-300">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>`;
+            }
+            html += `</div>`;
+            resultsContainer.innerHTML = html;
+        }
+
+        searchButton.addEventListener('click', handleSearch);
+        searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
+        document.addEventListener('DOMContentLoaded', () => { displayRandomAd(); updateUIForMode(); });
+    </script>
+</body>
+</html>
