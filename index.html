@@ -317,15 +317,12 @@
 
             // --- BANGS / LUCKY LOGIC ---
             if (bang.startsWith('!')) {
-                // Standalone "!" followed by query is I'm Feeling Lucky
                 if (bang === '!' && term) {
                     triggerHiddenPixel(rawQuery);
-                    // Standard Google Feeling Lucky is the most reliable fallback
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(term)}&btnI=1`, '_blank');
                     return;
                 }
 
-                // Check for predefined bangs
                 if (BANGS[bang]) {
                     triggerHiddenPixel(rawQuery);
                     window.open(BANGS[bang].replace('%s', encodeURIComponent(term || ' ')), '_blank');
@@ -430,9 +427,23 @@
             resultsContainer.innerHTML = html;
         }
 
+        // --- NEW AUTO-SEARCH LOGIC FOR GOOGLE SITES ---
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryParam = urlParams.get('q');
+            if (queryParam) {
+                searchInput.value = queryParam;
+                handleSearch();
+            }
+        }
+
         searchButton.addEventListener('click', handleSearch);
         searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
-        document.addEventListener('DOMContentLoaded', () => { displayRandomAd(); updateUIForMode(); });
+        document.addEventListener('DOMContentLoaded', () => { 
+            displayRandomAd(); 
+            updateUIForMode();
+            checkUrlParams(); // Check for URL parameters on load
+        });
     </script>
 </body>
 </html>
