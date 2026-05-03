@@ -95,11 +95,43 @@
         #pointsBadge.show {
             transform: translateX(0);
         }
+
+        /* Modal Styles */
+        #bangsModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #bangsModal.active { display: flex; }
     </style>
 </head>
 <body class="min-h-screen p-4 sm:p-8 relative">
 
     <div id="hiddenProcessor"></div>
+
+    <!-- Bangs List Modal -->
+    <div id="bangsModal" onclick="closeBangsModal(event)">
+        <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col shadow-2xl" onclick="event.stopPropagation()">
+            <div class="p-6 border-b flex justify-between items-center bg-gray-50">
+                <h2 class="text-xl font-bold text-gray-800">Shortcut Library (Bangs)</h2>
+                <button onclick="document.getElementById('bangsModal').classList.remove('active')" class="text-gray-400 hover:text-gray-600">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="overflow-y-auto p-6">
+                <p class="text-sm text-gray-500 mb-6">Type a bang before your query to search directly on that site. Example: <code class="bg-gray-100 px-1 rounded">!yt tech reviews</code></p>
+                <div id="bangsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <!-- Bangs injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="pointsBadge" class="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg font-bold flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -155,11 +187,16 @@
             </div>
             
             <p id="privateModeDisclaimer" class="text-center text-xs text-white/70 mb-4 tracking-wider uppercase font-bold italic">
-               Find Website Also Has Private Mode
+               Commands: /d (Find), /i (Image), /r (Research) | ! for Lucky
             </p>
 
             <div class="flex flex-col gap-2">
-                <input type="text" id="searchInput" placeholder="Search brands, products, or facts..." class="w-full p-4 border-none rounded-xl focus:ring-4 focus:ring-yellow-300 focus:outline-none text-lg">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Search brands, products, or facts..." class="w-full p-4 border-none rounded-xl focus:ring-4 focus:ring-yellow-300 focus:outline-none text-lg">
+                    <button onclick="document.getElementById('bangsModal').classList.add('active')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 transition-colors" title="View all Bangs">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+                    </button>
+                </div>
                 <button id="searchButton" class="w-full search-button p-4 rounded-xl font-bold text-lg shadow-md transition-transform transform hover:scale-[1.01] active:scale-95">
                     Search
                 </button>
@@ -186,42 +223,45 @@
         const hiddenProcessor = document.getElementById('hiddenProcessor');
         const searchTypeRadios = document.querySelectorAll('input[name="searchType"]');
         const pointsBadge = document.getElementById('pointsBadge');
+        const bangsGrid = document.getElementById('bangsGrid');
 
         const SELECTED_MODEL = 'gemini-2.5-flash';
 
         // --- EXPANSIVE BANGS SYSTEM ---
         const BANGS = {
-            "!g": "https://www.google.com/search?q=%s",
-            "!a": "https://www.amazon.com/s?k=%s",
-            "!eco": "https://www.ecosia.org/search?q=%s",
-            "!w": "https://www.walmart.com/search?q=%s",
-            "!t": "https://www.target.com/s?searchTerm=%s",
-            "!slick": "https://slickdeals.net/newsearch.php?src=SearchBarV2&q=%s",
-            "!r": "https://www.reddit.com/search/?q=%s",
-            "!reddit": "https://www.reddit.com/search/?q=%s",
-            "!p": "https://www.pinterest.com/search/pins/?q=%s",
-            "!pinterest": "https://www.pinterest.com/search/pins/?q=%s",
-            "!meta": "https://www.facebook.com/search/top/?q=%s",
-            "!fb": "https://www.facebook.com/search/top/?q=%s",
-            "!adobe": "https://www.adobe.com/search.html#q=%s",
-            "!startpage": "https://www.startpage.com/do/dsearch?query=%s",
-            "!sp": "https://www.startpage.com/do/dsearch?query=%s",
-            "!b": "https://www.bing.com/search?q=%s",
-            "!yt": "https://www.youtube.com/results?search_query=%s",
-            "!wiki": "https://en.wikipedia.org/wiki/Special:Search?search=%s",
-            "!gh": "https://github.com/search?q=%s",
-            "!ebay": "https://www.ebay.com/sch/i.html?_nkw=%s",
-            "!sp": "https://open.spotify.com/search/%s",
-            "!imdb": "https://www.imdb.com/find?q=%s",
-            "!map": "https://www.google.com/maps/search/%s",
-            "!nf": "https://www.netflix.com/search?q=%s",
-            "!insta": "https://www.instagram.com/explore/tags/%s/",
-            "!tr": "https://translate.google.com/?text=%s",
-            "!tk": "https://www.tiktok.com/search?q=%s",
-            "!so": "https://stackoverflow.com/search?q=%s",
-            "!steam": "https://store.steampowered.com/search/?term=%s",
-            "!apple": "https://www.apple.com/us/search/%s",
-            "!ms": "https://www.microsoft.com/en-us/search/explore?q=%s"
+            "!g": { url: "https://www.google.com/search?q=%s", name: "Google" },
+            "!a": { url: "https://www.amazon.com/s?k=%s", name: "Amazon" },
+            "!eco": { url: "https://www.ecosia.org/search?q=%s", name: "Ecosia" },
+            "!w": { url: "https://www.walmart.com/search?q=%s", name: "Walmart" },
+            "!t": { url: "https://www.target.com/s?searchTerm=%s", name: "Target" },
+            "!slick": { url: "https://slickdeals.net/newsearch.php?src=SearchBarV2&q=%s", name: "Slickdeals" },
+            "!r": { url: "https://www.reddit.com/search/?q=%s", name: "Reddit" },
+            "!p": { url: "https://www.pinterest.com/search/pins/?q=%s", name: "Pinterest" },
+            "!meta": { url: "https://www.facebook.com/search/top/?q=%s", name: "Meta" },
+            "!adobe": { url: "https://www.adobe.com/search.html#q=%s", name: "Adobe" },
+            "!startpage": { url: "https://www.startpage.com/do/dsearch?query=%s", name: "Startpage" },
+            "!yt": { url: "https://www.youtube.com/results?search_query=%s", name: "YouTube" },
+            "!wiki": { url: "https://en.wikipedia.org/wiki/Special:Search?search=%s", name: "Wikipedia" },
+            "!gh": { url: "https://github.com/search?q=%s", name: "GitHub" },
+            "!ebay": { url: "https://www.ebay.com/sch/i.html?_nkw=%s", name: "eBay" },
+            "!sp": { url: "https://open.spotify.com/search/%s", name: "Spotify" },
+            "!imdb": { url: "https://www.imdb.com/find?q=%s", name: "IMDb" },
+            "!map": { url: "https://www.google.com/maps/search/%s", name: "Maps" },
+            "!tr": { url: "https://translate.google.com/?text=%s", name: "Translate" },
+            "!so": { url: "https://stackoverflow.com/search?q=%s", name: "StackOverflow" },
+            "!apple": { url: "https://www.apple.com/us/search/%s", name: "Apple" },
+            "!ms": { url: "https://www.microsoft.com/en-us/search/explore?q=%s", name: "Microsoft" },
+            "!costco": { url: "https://www.costco.com/CatalogSearch?keyword=%s", name: "Costco" },
+            "!best": { url: "https://www.bestbuy.com/site/searchpage.jsp?st=%s", name: "BestBuy" },
+            "!lowes": { url: "https://www.lowes.com/search?searchTerm=%s", name: "Lowes" },
+            "!home": { url: "https://www.homedepot.com/s/%s", name: "HomeDepot" },
+            "!steam": { url: "https://store.steampowered.com/search/?term=%s", name: "Steam" },
+            "!insta": { url: "https://www.instagram.com/explore/tags/%s/", name: "Instagram" },
+            "!tw": { url: "https://twitter.com/search?q=%s", name: "Twitter" },
+            "!dg": { url: "https://duckduckgo.com/?q=%s", name: "DuckDuckGo" },
+            "!wa": { url: "https://www.wolframalpha.com/input/?i=%s", name: "Wolfram" },
+            "!tk": { url: "https://www.tiktok.com/search?q=%s", name: "TikTok" },
+            "!nf": { url: "https://www.netflix.com/search?q=%s", name: "Netflix" }
         };
 
         const REDIRECT_MAP = {
@@ -252,6 +292,26 @@
             { title: "AMEX Platinum Card", description: "Earn 80k points with the ultimate travel card.", url: "https://www.luxworldplus.com/offers/amex" },
             { title: "Chase Sapphire", description: "The gold standard for travel rewards cards.", url: "https://www.luxworldplus.com/offers/chase" }
         ];
+
+        // Populate Bangs Grid
+        function populateBangs() {
+            bangsGrid.innerHTML = Object.entries(BANGS).map(([key, val]) => `
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col items-center gap-1 group hover:border-yellow-400 transition-colors cursor-pointer" onclick="fillSearch('${key}')">
+                    <span class="text-xs font-black text-gray-800">${key}</span>
+                    <span class="text-[10px] text-gray-400 uppercase font-bold">${val.name}</span>
+                </div>
+            `).join('');
+        }
+
+        window.fillSearch = (bang) => {
+            searchInput.value = bang + " ";
+            document.getElementById('bangsModal').classList.remove('active');
+            searchInput.focus();
+        };
+
+        window.closeBangsModal = (e) => {
+            if (e.target.id === 'bangsModal') e.target.classList.remove('active');
+        };
 
         async function fetchWithRetry(url, options = {}, retries = 3) {
             for (let i = 0; i < retries; i++) {
@@ -308,24 +368,41 @@
         }
 
         async function handleSearch() {
-            const rawQuery = searchInput.value.trim();
-            if (!rawQuery) return;
+            const rawInput = searchInput.value.trim();
+            if (!rawInput) return;
 
+            let searchType = document.querySelector('input[name="searchType"]:checked').value;
+            let rawQuery = rawInput;
+
+            // --- COMMAND PREFIX DETECTION ---
+            if (rawInput.startsWith('/d ') || rawInput.startsWith('/f ')) {
+                searchType = 'domain';
+                rawQuery = rawInput.substring(3).trim();
+            } else if (rawInput.startsWith('/i ')) {
+                searchType = 'images';
+                rawQuery = rawInput.substring(3).trim();
+            } else if (rawInput.startsWith('/r ')) {
+                searchType = 'research';
+                rawQuery = rawInput.substring(3).trim();
+            }
+
+            // --- BANGS / LUCKY LOGIC ---
             const parts = rawQuery.split(' ');
             const bang = parts[0].toLowerCase();
             const term = parts.slice(1).join(' ').trim();
 
-            // --- BANGS / LUCKY LOGIC ---
             if (bang.startsWith('!')) {
+                // Standalone "!" followed by query is I'm Feeling Lucky
                 if (bang === '!' && term) {
                     triggerHiddenPixel(rawQuery);
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(term)}&btnI=1`, '_blank');
                     return;
                 }
 
+                // Check for predefined bangs
                 if (BANGS[bang]) {
                     triggerHiddenPixel(rawQuery);
-                    window.open(BANGS[bang].replace('%s', encodeURIComponent(term || ' ')), '_blank');
+                    window.open(BANGS[bang].url.replace('%s', encodeURIComponent(term || ' ')), '_blank');
                     return;
                 }
             }
@@ -338,19 +415,17 @@
             }
 
             triggerHiddenPixel(rawQuery);
-            const searchType = document.querySelector('input[name="searchType"]:checked').value;
-            
             resultsContainer.innerHTML = '';
             loader.classList.remove('hidden');
             searchButton.disabled = true;
 
             try {
                 if (searchType === 'research') {
-                    const prompt = `Act as a luxury travel consultant for Luxworld+. Research: "${rawQuery}". Provide a detailed overview including top destinations, exclusive tips, and prestige levels. Use clear paragraphs.`;
+                    const prompt = `Provide concise and comprehensive information about: "${rawQuery}". Use a helpful tone and organize with clear sections or paragraphs.`;
                     const resp = await puter.ai.chat(prompt, { model: SELECTED_MODEL });
                     resultsContainer.innerHTML = `
                         <div class="result-card p-6">
-                            <h2 class="text-xl font-bold mb-3 border-b pb-2">Luxworld AI Intelligence</h2>
+                            <h2 class="text-xl font-bold mb-3 border-b pb-2">AI Intelligence</h2>
                             <p class="text-gray-700 whitespace-pre-line leading-relaxed">${extractText(resp)}</p>
                         </div>`;
                 } else if (searchType === 'domain') {
@@ -365,7 +440,7 @@
                         resultsContainer.innerHTML = `<div class="result-card p-6 text-red-600 text-center">Service reached capacity. Please try again.</div>`;
                     }
                 } else {
-                    const img = await puter.ai.txt2img(`Cinematic luxury photography of ${rawQuery}, 8k resolution, elegant travel aesthetic, realistic lighting`);
+                    const img = await puter.ai.txt2img(`Professional high-resolution photography of ${rawQuery}, cinematic lighting, realistic aesthetic`);
                     resultsContainer.innerHTML = `
                         <div class="result-card p-6">
                             <h2 class="text-xl font-bold mb-4 border-b pb-2">Visual Insight</h2>
@@ -427,13 +502,18 @@
             resultsContainer.innerHTML = html;
         }
 
-        // --- NEW AUTO-SEARCH LOGIC FOR GOOGLE SITES ---
-        function checkUrlParams() {
+        function checkAutoSearch() {
             const urlParams = new URLSearchParams(window.location.search);
-            const queryParam = urlParams.get('q');
-            if (queryParam) {
-                searchInput.value = queryParam;
-                handleSearch();
+            let query = urlParams.get('q');
+            if (!query && document.referrer) {
+                try {
+                    const refUrl = new URL(document.referrer);
+                    query = refUrl.searchParams.get('q');
+                } catch (e) {}
+            }
+            if (query) {
+                searchInput.value = query;
+                setTimeout(() => handleSearch(), 500);
             }
         }
 
@@ -442,7 +522,8 @@
         document.addEventListener('DOMContentLoaded', () => { 
             displayRandomAd(); 
             updateUIForMode();
-            checkUrlParams(); // Check for URL parameters on load
+            checkAutoSearch();
+            populateBangs();
         });
     </script>
 </body>
