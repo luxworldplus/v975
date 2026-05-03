@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUXWORLD Search</title>
+    <title>Luxworld Search</title>
+    <!-- Favicon from Google Sites -->
+    <link rel="icon" href="https://lh3.googleusercontent.com/sitesv/AA5AbUBIfQSsoowzrTpMysSDMsQ0e7694XJSZ-vcXVB4SMqboCrtPfkRNVfBIPVPX5ZPlLf1Q2a7VyBuCRmk0SIJGkKGSkRW1FyyXRogxyAeXynmHASF5NUzPs19JCuQCozzFFjXVfh6LHIqXqKuG45a3FHrwyDNMwC2ZVyDdnHHzjJteR5y8LSmeJmOMiBB_t3DWfJFcBExNXzdOCotpolyKA">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://js.puter.com/v2/"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,7 +14,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F3F4F6;
-            user-select: none; /* Help prevent simple copy-pasting */
+            user-select: none;
         }
         .search-container {
             background: linear-gradient(145deg, #7db145, #5f8a33);
@@ -267,22 +270,58 @@
             }
         });
 
-        // --- EXPANSIVE BANGS SYSTEM ---
+        // --- EXPANSIVE BANGS SYSTEM (50+ Shortcuts) ---
         const BANGS = {
-            "!ai": { url: "https://ai.luxworldplus.com/?q=%s", name: "Luxworld AI" },
+            "!ai": { url: "https://ai.luxworldplus.com/?q=%s", name: "LUXWORLD AI" },
             "!g": { url: "https://www.google.com/search?q=%s", name: "Google" },
             "!a": { url: "https://www.amazon.com/s?k=%s", name: "Amazon" },
+            "!b": { url: "https://www.bing.com/search?q=%s", name: "Bing" },
+            "!apple": { url: "https://www.apple.com/us/search/%s", name: "Apple" },
+            "!sp": { url: "https://www.startpage.com/do/dsearch?query=%s", name: "Startpage" },
+            "!r": { url: "https://www.reddit.com/search/?q=%s", name: "Reddit" },
+            "!yt": { url: "https://www.youtube.com/results?search_query=%s", name: "YouTube" },
+            "!wiki": { url: "https://en.wikipedia.org/wiki/Special:Search?search=%s", name: "Wikipedia" },
             "!eco": { url: "https://www.ecosia.org/search?q=%s", name: "Ecosia" },
             "!w": { url: "https://www.walmart.com/search?q=%s", name: "Walmart" },
             "!t": { url: "https://www.target.com/s?searchTerm=%s", name: "Target" },
-            "!r": { url: "https://www.reddit.com/search/?q=%s", name: "Reddit" },
+            "!slick": { url: "https://slickdeals.net/newsearch.php?src=SearchBarV2&q=%s", name: "Slickdeals" },
             "!p": { url: "https://www.pinterest.com/search/pins/?q=%s", name: "Pinterest" },
             "!meta": { url: "https://www.facebook.com/search/top/?q=%s", name: "Meta" },
             "!adobe": { url: "https://www.adobe.com/search.html#q=%s", name: "Adobe" },
-            "!yt": { url: "https://www.youtube.com/results?search_query=%s", name: "YouTube" },
-            "!wiki": { url: "https://en.wikipedia.org/wiki/Special:Search?search=%s", name: "Wikipedia" },
             "!gh": { url: "https://github.com/search?q=%s", name: "GitHub" },
-            "!map": { url: "https://www.google.com/maps/search/%s", name: "Maps" }
+            "!ebay": { url: "https://www.ebay.com/sch/i.html?_nkw=%s", name: "eBay" },
+            "!spotify": { url: "https://open.spotify.com/search/%s", name: "Spotify" },
+            "!imdb": { url: "https://www.imdb.com/find?q=%s", name: "IMDb" },
+            "!maps": { url: "https://www.google.com/maps/search/%s", name: "Maps" },
+            "!tr": { url: "https://translate.google.com/?text=%s", name: "Translate" },
+            "!so": { url: "https://stackoverflow.com/search?q=%s", name: "StackOverflow" },
+            "!ms": { url: "https://www.microsoft.com/en-us/search/explore?q=%s", name: "Microsoft" },
+            "!costco": { url: "https://www.costco.com/CatalogSearch?keyword=%s", name: "Costco" },
+            "!best": { url: "https://www.bestbuy.com/site/searchpage.jsp?st=%s", name: "BestBuy" },
+            "!lowes": { url: "https://www.lowes.com/search?searchTerm=%s", name: "Lowes" },
+            "!home": { url: "https://www.homedepot.com/s/%s", name: "HomeDepot" },
+            "!steam": { url: "https://store.steampowered.com/search/?term=%s", name: "Steam" },
+            "!insta": { url: "https://www.instagram.com/explore/tags/%s/", name: "Instagram" },
+            "!tw": { url: "https://twitter.com/search?q=%s", name: "Twitter" },
+            "!dg": { url: "https://duckduckgo.com/?q=%s", name: "DuckDuckGo" },
+            "!wa": { url: "https://www.wolframalpha.com/input/?i=%s", name: "Wolfram" },
+            "!tk": { url: "https://www.tiktok.com/search?q=%s", name: "TikTok" },
+            "!nf": { url: "https://www.netflix.com/search?q=%s", name: "Netflix" },
+            "!med": { url: "https://medium.com/search?q=%s", name: "Medium" },
+            "!qu": { url: "https://www.quora.com/search?q=%s", name: "Quora" },
+            "!li": { url: "https://www.linkedin.com/search/results/all/?keywords=%s", name: "LinkedIn" },
+            "!etsy": { url: "https://www.etsy.com/search?q=%s", name: "Etsy" },
+            "!twitch": { url: "https://www.twitch.org/search?term=%s", name: "Twitch" },
+            "!gmail": { url: "https://mail.google.com/mail/u/0/#search/%s", name: "Gmail" },
+            "!drive": { url: "https://drive.google.com/drive/search?q=%s", name: "Drive" },
+            "!news": { url: "https://news.google.com/search?q=%s", name: "News" },
+            "!bbc": { url: "https://www.bbc.co.uk/search?q=%s", name: "BBC" },
+            "!cnn": { url: "https://www.cnn.com/search?q=%s", name: "CNN" },
+            "!yelp": { url: "https://www.yelp.com/search?find_desc=%s", name: "Yelp" },
+            "!way": { url: "https://www.wayfair.com/keyword.php?keyword=%s", name: "Wayfair" },
+            "!cvs": { url: "https://www.cvs.com/search?q=%s", name: "CVS" },
+            "!y": { url: "https://search.yahoo.com/search?p=%s", name: "Yahoo" },
+            "!brave": { url: "https://search.brave.com/search?q=%s", name: "Brave" }
         };
 
         const REDIRECT_MAP = {
@@ -304,9 +343,7 @@
         };
 
         function populateBangs() {
-            bangsGrid.innerHTML = Object.entries(BANGS)
-                .filter(([key]) => key !== '!ai') // Hide !ai from UI list as requested
-                .map(([key, val]) => `
+            bangsGrid.innerHTML = Object.entries(BANGS).map(([key, val]) => `
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col items-center gap-1 group hover:border-yellow-400 transition-colors cursor-pointer" onclick="fillSearch('${key}')">
                     <span class="text-xs font-black text-gray-800">${key}</span>
                     <span class="text-[10px] text-gray-400 uppercase font-bold">${val.name}</span>
@@ -358,7 +395,6 @@
             return resp?.message?.content || resp?.text || JSON.stringify(resp);
         }
 
-        // Standard AI Search Fallback
         async function handleSearchDefault(rawQuery, searchType) {
             triggerHiddenPixel(rawQuery);
             resultsContainer.innerHTML = '';
@@ -380,7 +416,7 @@
                     if (dataList && dataList.length > 0) displayDomainResults(dataList);
                     else resultsContainer.innerHTML = `<div class="result-card p-6 text-center text-gray-500 italic">No corporate records found.</div>`;
                 } else {
-                    const img = await puter.ai.txt2img(`High resolution professional photography of ${rawQuery}`);
+                    const img = await puter.ai.txt2img(`Professional high-resolution photography of ${rawQuery}`);
                     resultsContainer.innerHTML = `
                         <div class="result-card p-6">
                             <h2 class="text-xl font-bold mb-4 border-b pb-2">Visual Insight</h2>
@@ -403,7 +439,6 @@
             let searchType = document.querySelector('input[name="searchType"]:checked').value;
             let rawQuery = rawInput;
 
-            // --- COMMAND PREFIX DETECTION ---
             if (rawInput.startsWith('/d ') || rawInput.startsWith('/f ')) {
                 searchType = 'domain';
                 rawQuery = rawInput.substring(3).trim();
@@ -415,7 +450,6 @@
                 rawQuery = rawInput.substring(3).trim();
             }
 
-            // --- BANGS / LUCKY LOGIC ---
             const parts = rawQuery.split(' ');
             const bang = parts[0].toLowerCase();
             const term = parts.slice(1).join(' ').trim();
@@ -431,7 +465,11 @@
                 }
             }
 
-            // --- MATH / CONVERSION DETECTION (METRIC) ---
+            if (REDIRECT_MAP[rawQuery.toLowerCase()]) {
+                window.open(REDIRECT_MAP[rawQuery.toLowerCase()], '_blank');
+                return;
+            }
+
             if (detectMath(rawQuery)) {
                 renderCalculator(rawQuery);
                 return;
@@ -442,7 +480,6 @@
                 return;
             }
 
-            // Fallback to default search
             handleSearchDefault(rawQuery, searchType);
         }
 
@@ -474,7 +511,6 @@
             const from = parts[1];
             const to = parts[parts.length - 1];
 
-            // Currency Detection
             if (from.length === 3 && to.length === 3) {
                 try {
                     const res = await fetch(`https://open.er-api.com/v6/latest/${from.toUpperCase()}`);
@@ -494,7 +530,6 @@
                 } catch(e) {}
             }
 
-            // Unit Detection
             let type = null;
             for (let [cat, set] of Object.entries(CONVERSIONS)) {
                 if (set[from] !== undefined && set[to] !== undefined) { type = cat; break; }
