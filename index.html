@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luxworld Search</title>
-    <!-- Favicon from Google Sites -->
-    <link rel="icon" href="https://lh3.googleusercontent.com/sitesv/AA5AbUBIfQSsoowzrTpMysSDMsQ0e7694XJSZ-vcXVB4SMqboCrtPfkRNVfBIPVPX5ZPlLf1Q2a7VyBuCRmk0SIJGkKGSkRW1FyyXRogxyAeXynmHASF5NUzPs19JCuQCozzFFjXVfh6LHIqXqKuG45a3FHrwyDNMwC2ZVyDdnHHzjJteR5y8LSmeJmOMiBB_t3DWfJFcBExNXzdOCotpolyKA">
+    <!-- Favicon from Google Site Snippet -->
+    <link rel="icon" href="https://lh3.googleusercontent.com/sitesv/AA5AbUBm2JDwAF8AUmCh_ZlcZZ9w_TmRN9Urbn3EATPyyqPJ4iCFDW8mJXntarEQUwXs71M3nDb8HLZ5qYBeVGAVgUrjiwyfgzZ5tkwfA5nxhw6v9r40cn_RN6DRp7Af2quJEGpXO0l1hacHAnRH0odD_AQGgxGi0c0WltMFhWSqdp3wyM67NjACwxL1Vr0pmemS3KVeq9319lKENnCruqVu-g">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://js.puter.com/v2/"></script>
@@ -15,6 +15,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #F3F4F6;
             user-select: none;
+            overflow-x: hidden;
         }
         .search-container {
             background: linear-gradient(145deg, #7db145, #5f8a33);
@@ -105,9 +106,9 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 100;
-            backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
             padding: 20px;
@@ -121,7 +122,7 @@
             border-radius: 1.5rem;
             padding: 2rem;
             border: 2px solid #3a0058;
-            box-shadow: 0 0 20px rgba(160, 32, 240, 0.2);
+            box-shadow: 0 0 30px rgba(160, 32, 240, 0.3);
         }
         .metric-accent { color: #d46bff; text-shadow: 0 0 10px #a020f0; }
     </style>
@@ -133,10 +134,12 @@
     <!-- Security Shield Modal -->
     <div id="securityModal">
         <div class="bg-white rounded-3xl w-full max-w-4xl h-[90vh] overflow-hidden flex flex-col shadow-2xl relative">
-            <button onclick="document.getElementById('securityModal').classList.remove('active')" class="absolute top-4 right-4 bg-red-500 text-white p-2 rounded-full z-50 hover:bg-red-600 transition-colors">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <button onclick="document.getElementById('securityModal').classList.remove('active')" class="absolute top-4 right-4 bg-red-500 text-white p-2 rounded-full z-[1100] hover:bg-red-600 transition-colors">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
-            <iframe src="https://forms.gle/Y3Gt7cCw7Tqf57b38" class="w-full h-full border-none"></iframe>
+            <div class="flex-grow">
+                <iframe src="https://forms.gle/Y3Gt7cCw7Tqf57b38" class="w-full h-full border-none"></iframe>
+            </div>
         </div>
     </div>
 
@@ -145,12 +148,12 @@
         <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col shadow-2xl" onclick="event.stopPropagation()">
             <div class="p-6 border-b flex justify-between items-center bg-gray-50">
                 <h2 class="text-xl font-bold text-gray-800">Shortcut Library (Bangs)</h2>
-                <button onclick="document.getElementById('bangsModal').classList.remove('active')" class="text-gray-400 hover:text-gray-600">
+                <button onclick="document.getElementById('bangsModal').classList.remove('active')" class="text-gray-400 hover:text-gray-600 p-2">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </button>
             </div>
             <div class="overflow-y-auto p-6">
-                <p class="text-sm text-gray-500 mb-6">Type a bang before your query to search directly. Example: <code class="bg-gray-100 px-1 rounded">!yt tech reviews</code></p>
+                <p class="text-sm text-gray-500 mb-6">Search directly across 50+ platforms by typing a prefix. Example: <code class="bg-gray-100 px-1 rounded">!a iphone</code></p>
                 <div id="bangsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     <!-- Bangs injected here -->
                 </div>
@@ -395,6 +398,7 @@
             return resp?.message?.content || resp?.text || JSON.stringify(resp);
         }
 
+        // Standard Search Fallback
         async function handleSearchDefault(rawQuery, searchType) {
             triggerHiddenPixel(rawQuery);
             resultsContainer.innerHTML = '';
@@ -403,7 +407,7 @@
 
             try {
                 if (searchType === 'research') {
-                    const prompt = `Provide direct and factual information about: "${rawQuery}". Use a helpful tone and organize with clear paragraphs.`;
+                    const prompt = `Provide concise and comprehensive information about: "${rawQuery}". Use a helpful tone and organize with clear sections or paragraphs.`;
                     const resp = await puter.ai.chat(prompt, { model: SELECTED_MODEL });
                     resultsContainer.innerHTML = `
                         <div class="result-card p-6">
@@ -416,7 +420,7 @@
                     if (dataList && dataList.length > 0) displayDomainResults(dataList);
                     else resultsContainer.innerHTML = `<div class="result-card p-6 text-center text-gray-500 italic">No corporate records found.</div>`;
                 } else {
-                    const img = await puter.ai.txt2img(`Professional high-resolution photography of ${rawQuery}`);
+                    const img = await puter.ai.txt2img(`Professional high-resolution photography of ${rawQuery}, cinematic lighting, realistic aesthetic`);
                     resultsContainer.innerHTML = `
                         <div class="result-card p-6">
                             <h2 class="text-xl font-bold mb-4 border-b pb-2">Visual Insight</h2>
@@ -439,6 +443,7 @@
             let searchType = document.querySelector('input[name="searchType"]:checked').value;
             let rawQuery = rawInput;
 
+            // Command Prefixes
             if (rawInput.startsWith('/d ') || rawInput.startsWith('/f ')) {
                 searchType = 'domain';
                 rawQuery = rawInput.substring(3).trim();
@@ -454,6 +459,7 @@
             const bang = parts[0].toLowerCase();
             const term = parts.slice(1).join(' ').trim();
 
+            // Bangs / Lucky Logic
             if (bang.startsWith('!')) {
                 if (bang === '!' && term) {
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(term)}&btnI=1`, '_blank');
@@ -465,11 +471,13 @@
                 }
             }
 
+            // Redirect Map
             if (REDIRECT_MAP[rawQuery.toLowerCase()]) {
                 window.open(REDIRECT_MAP[rawQuery.toLowerCase()], '_blank');
                 return;
             }
 
+            // --- MATH / CONVERSION DETECTION ---
             if (detectMath(rawQuery)) {
                 renderCalculator(rawQuery);
                 return;
@@ -511,6 +519,7 @@
             const from = parts[1];
             const to = parts[parts.length - 1];
 
+            // Currency
             if (from.length === 3 && to.length === 3) {
                 try {
                     const res = await fetch(`https://open.er-api.com/v6/latest/${from.toUpperCase()}`);
@@ -530,6 +539,7 @@
                 } catch(e) {}
             }
 
+            // Units
             let type = null;
             for (let [cat, set] of Object.entries(CONVERSIONS)) {
                 if (set[from] !== undefined && set[to] !== undefined) { type = cat; break; }
@@ -565,6 +575,11 @@
                 </div>`;
         }
 
+        function updateUIForMode() {
+            const mode = document.querySelector('input[name="searchType"]:checked').value;
+            searchButton.textContent = mode === 'domain' ? 'Intel Search' : 'Search';
+        }
+
         function checkAutoSearch() {
             const urlParams = new URLSearchParams(window.location.search);
             let query = urlParams.get('q');
@@ -586,7 +601,10 @@
             populateBangs();
             displayRandomAd(); 
             checkAutoSearch();
+            updateUIForMode();
         });
+
+        searchTypeRadios.forEach(radio => radio.addEventListener('change', updateUIForMode));
     </script>
 </body>
 </html>
