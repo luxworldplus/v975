@@ -184,7 +184,7 @@
 
         <header class="text-center mb-8 pt-4">
             <div class="inline-block p-4 rounded-3xl">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-24 h-24 mx-auto">
+                <svg id="mainLogoSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-24 h-24 mx-auto">
                     <rect width="100" height="100" rx="20" fill="#93c363" />
                     <g transform="translate(50 45) rotate(45)">
                         <circle cx="0" cy="0" r="28" fill="none" stroke="#f0e34a" stroke-width="8" />
@@ -335,8 +335,14 @@
         };
 
         const ADS_LIST = [
-            { title: "Visit LUXWORLD+", description: "Luxury travel masters and point masterminds.", url: "https://www.luxworldplus.com" },
-            { title: "AMEX Platinum Card", description: "Earn 80k points with the ultimate travel card.", url: "https://www.luxworldplus.com/offers/amex" }
+            { title: "Visit LUXWORLD+", description: "Luxury travel tips, points, and miles mastery.", url: "https://www.luxworldplus.com" },
+            { title: "AMEX Platinum Card", description: "Earn 80k points with the ultimate travel card.", url: "https://www.luxworldplus.com/offers/amex" },
+            { title: "AMEX Gold", description: "4x points on dining and groceries. Best for foodies.", url: "https://www.luxworldplus.com/offers/amex" },
+            { title: "Chase Sapphire", description: "The gold standard for travel rewards cards.", url: "https://www.luxworldplus.com/offers/chase" },
+            { title: "Chase United Cards", description: "Like earning United Miles? You should probably have a United Card.", url: "https://www.luxworldplus.com/offers/chase/united" },
+            { title: "Venture X", description: "2x and more rewards.", url: "https://www.luxworldplus.com/offers/capital-one" },
+            { title: "Hilton AMEX", description: "Want status quickly? Get a Hilton Card.", url: "https://www.luxworldplus.com/offers/amex/hilton" },
+            { title: "Delta AMEX", description: "15% off award flights. Get your Delta Card Now.", url: "https://www.luxworldplus.com/offers/amex/delta" }
         ];
 
         // --- CONVERSION DATA ---
@@ -350,7 +356,7 @@
             bangsGrid.innerHTML = Object.entries(BANGS).map(([key, val]) => `
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col items-center gap-1 group hover:border-yellow-400 transition-colors cursor-pointer" onclick="fillSearch('${key}')">
                     <span class="text-xs font-black text-gray-800">${key}</span>
-                    <span class="text-[10px] text-gray-400 uppercase font-bold">${val.name}</span>
+                    <span class="text-[10px] text-gray-400 uppercase font-bold text-center">${val.name}</span>
                 </div>
             `).join('');
         }
@@ -399,7 +405,7 @@
             return resp?.message?.content || resp?.text || JSON.stringify(resp);
         }
 
-        // Default Search Logic (Research/Domain/Images)
+        // Standard Search Fallback
         async function handleSearchDefault(rawQuery, searchType) {
             triggerHiddenPixel(rawQuery);
             resultsContainer.innerHTML = '';
@@ -520,7 +526,7 @@
             const from = parts[1];
             const to = parts[parts.length - 1];
 
-            // Currency
+            // Currency Detection
             if (from.length === 3 && to.length === 3) {
                 try {
                     const res = await fetch(`https://open.er-api.com/v6/latest/${from.toUpperCase()}`);
@@ -540,7 +546,7 @@
                 } catch(e) {}
             }
 
-            // Units
+            // Units Detection
             let type = null;
             for (let [cat, set] of Object.entries(CONVERSIONS)) {
                 if (set[from] !== undefined && set[to] !== undefined) { type = cat; break; }
