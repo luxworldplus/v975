@@ -103,7 +103,7 @@
         }
 
         /* Modal Styles */
-        #bangsModal, #securityModal {
+        #bangsModal, #securityModal, #defaultModal {
             display: none;
             position: fixed;
             inset: 0;
@@ -114,7 +114,7 @@
             justify-content: center;
             padding: 20px;
         }
-        #bangsModal.active, #securityModal.active { display: flex; }
+        #bangsModal.active, #securityModal.active, #defaultModal.active { display: flex; }
 
         /* Metric Integrated UI */
         .metric-card {
@@ -126,6 +126,9 @@
             box-shadow: 0 0 30px rgba(160, 32, 240, 0.3);
         }
         .metric-accent { color: #d46bff; text-shadow: 0 0 10px #a020f0; }
+
+        /* Copy Button Animation */
+        .copy-btn:active { transform: scale(0.9); }
     </style>
 </head>
 <body class="min-h-screen p-4 sm:p-8 relative">
@@ -141,6 +144,58 @@
             <div class="flex-grow">
                 <iframe src="https://forms.gle/Y3Gt7cCw7Tqf57b38" class="w-full h-full border-none"></iframe>
             </div>
+        </div>
+    </div>
+
+    <!-- Improved Set as Default Modal -->
+    <div id="defaultModal" onclick="this.classList.remove('active')">
+        <div class="bg-white rounded-3xl w-full max-w-lg p-8 shadow-2xl overflow-y-auto max-h-[90vh]" onclick="event.stopPropagation()">
+            <h2 class="text-3xl font-black text-gray-800 mb-2 tracking-tight">Setup Browser Search</h2>
+            <p class="text-sm text-gray-500 mb-6">Add one of these URLs to your browser's "Custom Search Engines" settings.</p>
+            
+            <div class="space-y-4">
+                <!-- Option 1: Research -->
+                <div class="group">
+                    <label class="text-[10px] uppercase font-black text-blue-600 mb-1 block tracking-widest">Standard / Research</label>
+                    <div class="flex gap-2">
+                        <div class="bg-gray-100 p-3 rounded-xl font-mono text-[11px] break-all border border-gray-200 flex-grow leading-relaxed">
+                            https://search.luxworldplus.com/?q=%s
+                        </div>
+                        <button onclick="copyText('https://search.luxworldplus.com/?q=%s', this)" class="bg-gray-800 text-white p-3 rounded-xl hover:bg-black transition-all copy-btn" title="Copy URL">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4v8a2 2 0 002 2h6M8 4h6a2 2 0 012 2v6M4 8h2a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Option 2: Find Web -->
+                <div class="group">
+                    <label class="text-[10px] uppercase font-black text-green-600 mb-1 block tracking-widest">Website Finder Mode</label>
+                    <div class="flex gap-2">
+                        <div class="bg-gray-100 p-3 rounded-xl font-mono text-[11px] break-all border border-gray-200 flex-grow leading-relaxed">
+                            https://search.luxworldplus.com/?q=/d+%s
+                        </div>
+                        <button onclick="copyText('https://search.luxworldplus.com/?q=/d+%s', this)" class="bg-gray-800 text-white p-3 rounded-xl hover:bg-black transition-all copy-btn" title="Copy URL">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4v8a2 2 0 002 2h6M8 4h6a2 2 0 012 2v6M4 8h2a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Option 3: Images -->
+                <div class="group">
+                    <label class="text-[10px] uppercase font-black text-purple-600 mb-1 block tracking-widest">Image Generation Mode</label>
+                    <div class="flex gap-2">
+                        <div class="bg-gray-100 p-3 rounded-xl font-mono text-[11px] break-all border border-gray-200 flex-grow leading-relaxed">
+                            https://search.luxworldplus.com/?q=/i+%s
+                        </div>
+                        <button onclick="copyText('https://search.luxworldplus.com/?q=/i+%s', this)" class="bg-gray-800 text-white p-3 rounded-xl hover:bg-black transition-all copy-btn" title="Copy URL">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4v8a2 2 0 002 2h6M8 4h6a2 2 0 012 2v6M4 8h2a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-400 italic mt-6 mb-6">Tip: Browser modes handle space encoding automatically.</p>
+            <button onclick="document.getElementById('defaultModal').classList.remove('active')" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition-colors shadow-lg">Close Settings</button>
         </div>
     </div>
 
@@ -163,9 +218,6 @@
     </div>
 
     <div id="pointsBadge" class="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg font-bold flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-7.53 4.47a1 1 0 10-1.414 1.414 3 3 0 004.242 0 1 1 0 00-1.414-1.414 1 1 0 01-1.414 0z" clip-rule="evenodd" />
-        </svg>
         +5 Rewards Points Earned!
     </div>
 
@@ -191,9 +243,7 @@
                         <line x1="0" y1="26" x2="0" y2="40" stroke="#f0e34a" stroke-width="10" stroke-linecap="round" />
                     </g>
                     <g transform="translate(50 45) rotate(45) scale(0.7) translate(-25 -25)">
-                        <path fill="white" d="M47.25,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75V9.5c0-0.414-0.336-0.75-0.75-0.75s-0.75,0.336-0.75,0.75v8.5 c0,0.414-0.336,0.75-0.75,0.75h-8.5c-0.414,0-0.75,0.336-0.75,0.75v1.5c0,0.414,0.336,0.75,0.75,0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v8.5c0,0.414,0.336,0.75,0.75,0.75s0.75-0.336,0.75-0.75v-8.5c0-0.414,0.336,0.75,0.75-0.75h8.5 c0.414,0,0.75-0.336,0.75-0.75v-1.5C48,19.086,47.664,18.75,47.25,18.75z M25,48.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,48.586,24.586,48.25,25,48.25z M25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C24.25,42.586,24.586,42.25,25,42.25z M25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C24.25,36.586,24.586,36.25,25,36.25z M25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,30.586,24.586,30.25,25,30.25z M36.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C35.5,42.586,35.836,42.25,36.25,42.25z M36.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C35.5,36.586,35.836,36.25,36.25,36.25z M36.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C35.5,30.586,35.836,30.25,36.25,30.25z M47.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C46.5,42.586,46.836,42.25,47.25,42.25z M47.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C46.5,36.586,46.836,36.25,47.25,36.25z M47.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C46.5,30.586,46.836,30.25,47.25,30.25z M58.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C57.5,42.586,57.836,42.25,58.25,42.25z M58.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C57.5,36.586,57.836,36.25,58.25,36.25z M58.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C57.5,30.586,57.836,30.25,58.25,30.25z M18.75,24.25h-8.5 c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,23.914,19.164,24.25,18.75,24.25z M18.75,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75 v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5 C19.5,18.414,19.164,18.75,18.75,18.75z M18.75,13.25h-8.5c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75 s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,12.914,19.164,13.25,18.75,13.25z" />
-                    </g>
-                </svg>
+                        <path fill="white" d="M47.25,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75V9.5c0-0.414-0.336-0.75-0.75-0.75s-0.75,0.336-0.75,0.75v8.5 c0,0.414-0.336,0.75-0.75,0.75h-8.5c-0.414,0-0.75,0.336-0.75,0.75v1.5c0,0.414,0.336,0.75,0.75,0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v8.5c0,0.414,0.336,0.75,0.75,0.75s0.75-0.336,0.75-0.75v-8.5c0-0.414,0.336,0.75,0.75-0.75h8.5 c0.414,0,0.75-0.336,0.75-0.75v-1.5C48,19.086,47.664,18.75,47.25,18.75z M25,48.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,48.586,24.586,48.25,25,48.25z M25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C24.25,42.586,24.586,42.25,25,42.25z M25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C24.25,36.586,24.586,36.25,25,36.25z M25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,30.586,24.586,30.25,25,30.25z M36.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C35.5,42.586,35.836,42.25,36.25,42.25z M36.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C35.5,36.586,35.836,36.25,36.25,36.25z M36.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C35.5,30.586,35.836,30.25,36.25,30.25z M47.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C46.5,42.586,46.836,42.25,47.25,42.25z M47.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C46.5,36.586,46.836,36.25,47.25,36.25z M47.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C46.5,30.586,46.836,30.25,47.25,30.25z M58.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C57.5,42.586,57.836,42.25,58.25,42.25z M58.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C57.5,36.586,57.836,36.25,58.25,36.25z M58.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C57.5,30.586,57.836,30.25,58.25,30.25z M18.75,24.25h-8.5 c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,23.914,19.164,24.25,18.75,24.25z M18.75,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75 v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5 C19.5,18.414,19.164,18.75,18.75,18.75z M18.75,13.25h-8.5c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75 s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,12.914,19.164,13.25,18.75,13.25z'/%3E%3C/g%3E%3C/svg%3E" />
                 <h1 class="text-3xl font-bold text-gray-800 tracking-wide mt-4 uppercase">Luxworld Search</h1>
                 <p class="text-sm font-medium text-gray-600 tracking-widest uppercase">By Luxworld+</p>
             </div>
@@ -239,11 +289,13 @@
         </main>
 
         <footer class="text-center mt-12 text-gray-500 text-sm">
-            <p>Copyright by LUXWORLD+ &bull; Powered by Puter JS & Global Intelligence API</p>
+            <p class="mb-2">Copyright by LUXWORLD+ &bull; Powered by Puter JS & Global Intelligence API</p>
+            <button onclick="document.getElementById('defaultModal').classList.add('active')" class="text-xs text-blue-500 hover:underline">Set as Default Search Engine</button>
         </footer>
     </div>
 
     <script>
+        // --- UI & CORE ELEMENTS ---
         const searchInput = document.getElementById('searchInput');
         const searchButton = document.getElementById('searchButton');
         const adContainer = document.getElementById('adContainer');
@@ -257,24 +309,25 @@
 
         const SELECTED_MODEL = 'gemini-2.5-flash';
 
-        // --- SECURITY PROTOCOLS ---
-        function triggerSecurity() {
-            securityModal.classList.add('active');
+        // --- CORE UI FUNCTIONS ---
+        function updateUIForMode() {
+            const mode = document.querySelector('input[name="searchType"]:checked').value;
+            searchButton.textContent = mode === 'domain' ? 'Intel Search' : 'Search';
         }
 
-        window.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            triggerSecurity();
-        });
+        // --- ADS LIST (8 ADS) ---
+        const ADS_LIST = [
+            { title: "Visit LUXWORLD+", description: "Luxury travel tips, points, and miles mastery.", url: "https://www.luxworldplus.com" },
+            { title: "AMEX Platinum Card", description: "Earn 80k points with the ultimate travel card.", url: "https://www.luxworldplus.com/offers/amex" },
+            { title: "AMEX Gold", description: "4x points on dining and groceries. Best for foodies.", url: "https://www.luxworldplus.com/offers/amex" },
+            { title: "Chase Sapphire", description: "The gold standard for travel rewards cards.", url: "https://www.luxworldplus.com/offers/chase" },
+            { title: "Chase United Cards", description: "Like earning United Miles? You should probably have a United Card.", url: "https://www.luxworldplus.com/offers/chase/united" },
+            { title: "Venture X", description: "2x and more rewards.", url: "https://www.luxworldplus.com/offers/capital-one" },
+            { title: "Hilton AMEX", description: "Want status quickly? Get a Hilton Card.", url: "https://www.luxworldplus.com/offers/amex/hilton" },
+            { title: "Delta AMEX", description: "15% off award flights. Get your Delta Card Now.", url: "https://www.luxworldplus.com/offers/amex/delta" }
+        ];
 
-        window.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
-                e.preventDefault();
-                triggerSecurity();
-            }
-        });
-
-        // --- EXPANSIVE BANGS SYSTEM (50+ Shortcuts) ---
+        // --- BANGS SYSTEM ---
         const BANGS = {
             "!ai": { url: "https://ai.luxworldplus.com/?q=%s", name: "LUXWORLD AI" },
             "!g": { url: "https://www.google.com/search?q=%s", name: "Google" },
@@ -328,22 +381,29 @@
             "!brave": { url: "https://search.brave.com/search?q=%s", name: "Brave" }
         };
 
+        // --- REDIRECT MAP ---
         const REDIRECT_MAP = {
             "luxworld+": "https://luxworldplus.com",
             "luxworld plus": "https://luxworldplus.com",
-            "luxworld search": "https://search.luxworldplus.com"
+            "luxworld edu": "https://edu.luxworldplus.com",
+            "luxworld search": "https://search.luxworldplus.com",
+            "luxworld gaming": "https://gaming.luxworldplus.com",
+            "luxworld ai chat": "https://ai.luxworldplus.com",
+            "luxworld tech": "https://tech.luxworldplus.com",
+            "asm": "https://asm.luxworldplus.com",
+            "luxworld+ studio": "https://studio.luxworldplus.com",
+            "natural flow": "https://naturalflow.luxworldplus.com",
+            "luxpage": "https://page.luxworldplus.com",
+            "luxworld write": "https://write.luxworldplus.com",
+            "zero flow": "https://zeroflow.luxworldplus.com",
+            "super art": "https://art.luxworldplus.com",
+            "aurora browser": "https://aurora.luxworldplus.com",
+            "luxplayer": "https://player.luxworldplus.com",
+            "luxuryurlshortner": "https://lus.luxworldplus.com",
+            "luxdiscover": "https://ld.luxworldplus.com",
+            "loader": "https://loader.luxworldplus.com",
+            "loader edu": "https://edu.luxworldplus.com/loader-edu"
         };
-
-        const ADS_LIST = [
-            { title: "Visit LUXWORLD+", description: "Luxury travel tips, points, and miles mastery.", url: "https://www.luxworldplus.com" },
-            { title: "AMEX Platinum Card", description: "Earn 80k points with the ultimate travel card.", url: "https://www.luxworldplus.com/offers/amex" },
-            { title: "AMEX Gold", description: "4x points on dining and groceries. Best for foodies.", url: "https://www.luxworldplus.com/offers/amex" },
-            { title: "Chase Sapphire", description: "The gold standard for travel rewards cards.", url: "https://www.luxworldplus.com/offers/chase" },
-            { title: "Chase United Cards", description: "Like earning United Miles? You should probably have a United Card.", url: "https://www.luxworldplus.com/offers/chase/united" },
-            { title: "Venture X", description: "2x and more rewards.", url: "https://www.luxworldplus.com/offers/capital-one" },
-            { title: "Hilton AMEX", description: "Want status quickly? Get a Hilton Card.", url: "https://www.luxworldplus.com/offers/amex/hilton" },
-            { title: "Delta AMEX", description: "15% off award flights. Get your Delta Card Now.", url: "https://www.luxworldplus.com/offers/amex/delta" }
-        ];
 
         // --- CONVERSION DATA ---
         const CONVERSIONS = {
@@ -352,6 +412,12 @@
             Volume: { "l": 1, "ml": 0.001, "gal": 3.785, "cup": 0.24 }
         };
 
+        // --- SECURITY ---
+        function triggerSecurity() { securityModal.classList.add('active'); }
+        window.addEventListener('contextmenu', (e) => { e.preventDefault(); triggerSecurity(); });
+        window.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') { e.preventDefault(); triggerSecurity(); } });
+
+        // --- UI HELPERS ---
         function populateBangs() {
             bangsGrid.innerHTML = Object.entries(BANGS).map(([key, val]) => `
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col items-center gap-1 group hover:border-yellow-400 transition-colors cursor-pointer" onclick="fillSearch('${key}')">
@@ -361,15 +427,25 @@
             `).join('');
         }
 
-        window.fillSearch = (bang) => {
-            searchInput.value = bang + " ";
-            document.getElementById('bangsModal').classList.remove('active');
-            searchInput.focus();
-        };
+        window.fillSearch = (bang) => { searchInput.value = bang + " "; document.getElementById('bangsModal').classList.remove('active'); searchInput.focus(); };
+        window.closeBangsModal = (e) => { if (e.target.id === 'bangsModal') e.target.classList.remove('active'); };
 
-        window.closeBangsModal = (e) => {
-            if (e.target.id === 'bangsModal') e.target.classList.remove('active');
-        };
+        function copyText(txt, btn) {
+            const el = document.createElement('textarea');
+            el.value = txt;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const originalSvg = btn.innerHTML;
+            btn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>';
+            btn.classList.add('bg-green-600');
+            setTimeout(() => {
+                btn.innerHTML = originalSvg;
+                btn.classList.remove('bg-green-600');
+            }, 2000);
+        }
 
         function triggerHiddenPixel(query) {
             const encoded = encodeURIComponent(query);
@@ -405,7 +481,7 @@
             return resp?.message?.content || resp?.text || JSON.stringify(resp);
         }
 
-        // Standard Search Fallback
+        // --- SEARCH CORE ---
         async function handleSearchDefault(rawQuery, searchType) {
             triggerHiddenPixel(rawQuery);
             resultsContainer.innerHTML = '';
@@ -414,11 +490,11 @@
 
             try {
                 if (searchType === 'research') {
-                    const prompt = `Provide concise and comprehensive information about: "${rawQuery}". Use a helpful tone and organize with clear sections or paragraphs.`;
+                    const prompt = `Provide direct and factual information about: "${rawQuery}". Use a helpful tone and organize with clear sections or paragraphs.`;
                     const resp = await puter.ai.chat(prompt, { model: SELECTED_MODEL });
                     resultsContainer.innerHTML = `
                         <div class="result-card p-6">
-                            <h2 class="text-xl font-bold mb-3 border-b pb-2">AI Intelligence</h2>
+                            <h2 class="text-xl font-bold mb-3 border-b pb-2 text-gray-800 uppercase text-xs tracking-widest font-black opacity-50">AI Research</h2>
                             <p class="text-gray-700 whitespace-pre-line leading-relaxed">${extractText(resp)}</p>
                         </div>`;
                 } else if (searchType === 'domain') {
@@ -430,12 +506,12 @@
                     const img = await puter.ai.txt2img(`Professional high-resolution photography of ${rawQuery}, cinematic lighting, realistic aesthetic`);
                     resultsContainer.innerHTML = `
                         <div class="result-card p-6">
-                            <h2 class="text-xl font-bold mb-4 border-b pb-2">Visual Insight</h2>
+                            <h2 class="text-xl font-bold mb-4 border-b pb-2 text-gray-800 uppercase text-xs tracking-widest font-black opacity-50">Visual Generation</h2>
                             <div class="image-gallery-grid"><div class="image-gallery-item" style="background-image: url('${img.src}')"></div></div>
                         </div>`;
                 }
             } catch (error) {
-                resultsContainer.innerHTML = `<div class="result-card p-6 text-red-600">Request Error. Please retry.</div>`;
+                resultsContainer.innerHTML = `<div class="result-card p-6 text-red-600">Intelligence Node offline. Please retry.</div>`;
             } finally {
                 loader.classList.add('hidden');
                 displayRandomAd();
@@ -450,7 +526,6 @@
             let searchType = document.querySelector('input[name="searchType"]:checked').value;
             let rawQuery = rawInput;
 
-            // Command Prefixes
             if (rawInput.startsWith('/d ') || rawInput.startsWith('/f ')) {
                 searchType = 'domain';
                 rawQuery = rawInput.substring(3).trim();
@@ -466,7 +541,6 @@
             const bang = parts[0].toLowerCase();
             const term = parts.slice(1).join(' ').trim();
 
-            // Bangs / Lucky Logic
             if (bang.startsWith('!')) {
                 if (bang === '!' && term) {
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(term)}&btnI=1`, '_blank');
@@ -478,55 +552,33 @@
                 }
             }
 
-            // Redirect Map
             if (REDIRECT_MAP[rawQuery.toLowerCase()]) {
                 window.open(REDIRECT_MAP[rawQuery.toLowerCase()], '_blank');
                 return;
             }
 
-            // --- MATH / CONVERSION DETECTION ---
-            if (detectMath(rawQuery)) {
-                renderCalculator(rawQuery);
-                return;
-            }
-
-            if (detectConversion(rawQuery)) {
-                renderConverter(rawQuery);
-                return;
-            }
+            if (detectMath(rawQuery)) { renderCalculator(rawQuery); return; }
+            if (detectConversion(rawQuery)) { renderConverter(rawQuery); return; }
 
             handleSearchDefault(rawQuery, searchType);
         }
 
-        function detectMath(q) {
-            return /^[0-9+\-*/().\s^%]+$/.test(q) && /[+\-*/]/.test(q);
-        }
-
+        function detectMath(q) { return /^[0-9+\-*/().\s^%]+$/.test(q) && /[+\-*/]/.test(q); }
         function renderCalculator(q) {
             try {
                 const res = eval(q);
-                resultsContainer.innerHTML = `
-                    <div class="metric-card shadow-xl">
-                        <h2 class="text-xs uppercase font-bold tracking-widest metric-accent mb-4">Calculator Intelligence</h2>
-                        <div class="text-5xl font-black mb-2">${res}</div>
-                        <div class="text-gray-500 font-mono">${q}</div>
-                    </div>`;
+                resultsContainer.innerHTML = `<div class="metric-card shadow-xl"><h2 class="text-xs uppercase font-bold tracking-widest metric-accent mb-4">Calculator Intelligence</h2><div class="text-5xl font-black mb-2">${res}</div><div class="text-gray-500 font-mono">${q}</div></div>`;
                 displayRandomAd();
             } catch(e) { handleSearchDefault(q, 'research'); }
         }
 
-        function detectConversion(q) {
-            const pattern = /^\d+(\.\d+)?\s*\w+\s+to\s+\w+$/i;
-            return pattern.test(q);
-        }
-
+        function detectConversion(q) { return /^\d+(\.\d+)?\s*\w+\s+to\s+\w+$/i.test(q); }
         async function renderConverter(q) {
             const parts = q.toLowerCase().split(/\s+/);
             const val = parseFloat(parts[0]);
             const from = parts[1];
             const to = parts[parts.length - 1];
 
-            // Currency Detection
             if (from.length === 3 && to.length === 3) {
                 try {
                     const res = await fetch(`https://open.er-api.com/v6/latest/${from.toUpperCase()}`);
@@ -534,84 +586,45 @@
                     const rate = data.rates[to.toUpperCase()];
                     if (rate) {
                         const converted = (val * rate).toFixed(2);
-                        resultsContainer.innerHTML = `
-                            <div class="metric-card">
-                                <h2 class="text-xs uppercase font-bold tracking-widest metric-accent mb-4">Currency Intelligence</h2>
-                                <div class="text-4xl font-bold">${converted} <span class="text-lg opacity-50">${to.toUpperCase()}</span></div>
-                                <div class="mt-2 text-sm text-gray-400">1 ${from.toUpperCase()} = ${rate.toFixed(4)} ${to.toUpperCase()}</div>
-                            </div>`;
-                        displayRandomAd();
-                        return;
+                        resultsContainer.innerHTML = `<div class="metric-card"><h2 class="text-xs uppercase font-bold tracking-widest metric-accent mb-4">Currency Intelligence</h2><div class="text-4xl font-bold">${converted} <span class="text-lg opacity-50">${to.toUpperCase()}</span></div><div class="mt-2 text-sm text-gray-400">1 ${from.toUpperCase()} = ${rate.toFixed(4)} ${to.toUpperCase()}</div></div>`;
+                        displayRandomAd(); return;
                     }
                 } catch(e) {}
             }
 
-            // Units Detection
             let type = null;
-            for (let [cat, set] of Object.entries(CONVERSIONS)) {
-                if (set[from] !== undefined && set[to] !== undefined) { type = cat; break; }
-            }
-
+            for (let [cat, set] of Object.entries(CONVERSIONS)) { if (set[from] !== undefined && set[to] !== undefined) { type = cat; break; } }
             if (type) {
                 const result = (val * CONVERSIONS[type][from]) / CONVERSIONS[type][to];
-                resultsContainer.innerHTML = `
-                    <div class="metric-card">
-                        <h2 class="text-xs uppercase font-bold tracking-widest metric-accent mb-4">${type} Intelligence</h2>
-                        <div class="text-4xl font-bold">${Math.round(result * 100000) / 100000} <span class="text-lg opacity-50">${to}</span></div>
-                        <div class="mt-2 text-sm text-gray-400">${val} ${from} converted automatically</div>
-                    </div>`;
+                resultsContainer.innerHTML = `<div class="metric-card"><h2 class="text-xs uppercase font-bold tracking-widest metric-accent mb-4">${type} Intelligence</h2><div class="text-4xl font-bold">${Math.round(result * 100000) / 100000} <span class="text-lg opacity-50">${to}</span></div><div class="mt-2 text-sm text-gray-400">${val} ${from} converted automatically</div></div>`;
                 displayRandomAd();
-            } else {
-                handleSearchDefault(q, 'research');
-            }
+            } else { handleSearchDefault(q, 'research'); }
         }
 
         function displayDomainResults(dataList) {
             const main = dataList[0];
             const url = `https://${main.domain}`;
             const proxy = `https://${main.domain.replace(/\./g, '-')}.translate.goog`;
-            resultsContainer.innerHTML = `
-                <div class="result-card p-8 flex flex-col items-center">
-                    <img src="${main.logo}" class="w-20 h-20 rounded-2xl mb-4 bg-white p-1 border shadow-sm" onerror="this.style.display='none'">
-                    <h2 class="text-2xl font-bold mb-1 text-gray-800">${main.name}</h2>
-                    <a href="${url}" target="_blank" class="result-link text-xl font-semibold mb-6">${main.domain}</a>
-                    <div class="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md">
-                        <a href="${url}" target="_blank" class="flex-grow bg-green-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-green-700 shadow-md text-center">Visit Site</a>
-                        <a href="${proxy}" target="_blank" class="flex-grow bg-blue-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-blue-700 shadow-md text-center">Private Mode</a>
-                    </div>
-                </div>`;
-        }
-
-        function updateUIForMode() {
-            const mode = document.querySelector('input[name="searchType"]:checked').value;
-            searchButton.textContent = mode === 'domain' ? 'Intel Search' : 'Search';
+            resultsContainer.innerHTML = `<div class="result-card p-8 flex flex-col items-center"><img src="${main.logo}" class="w-20 h-20 rounded-2xl mb-4 bg-white p-1 border shadow-sm" onerror="this.style.display='none'"><h2 class="text-2xl font-bold mb-1 text-gray-800">${main.name}</h2><a href="${url}" target="_blank" class="result-link text-xl font-semibold mb-6">${main.domain}</a><div class="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md"><a href="${url}" target="_blank" class="flex-grow bg-green-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-green-700 shadow-md text-center">Visit Site</a><a href="${proxy}" target="_blank" class="flex-grow bg-blue-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-blue-700 shadow-md text-center">Private Mode</a></div></div>`;
         }
 
         function checkAutoSearch() {
             const urlParams = new URLSearchParams(window.location.search);
             let query = urlParams.get('q');
-            if (!query && document.referrer) {
-                try {
-                    const refUrl = new URL(document.referrer);
-                    query = refUrl.searchParams.get('q');
-                } catch (e) {}
-            }
-            if (query) {
-                searchInput.value = query;
-                setTimeout(() => handleSearch(), 500);
-            }
+            if (!query && document.referrer) { try { const refUrl = new URL(document.referrer); query = refUrl.searchParams.get('q'); } catch (e) {} }
+            if (query) { searchInput.value = query; setTimeout(() => handleSearch(), 500); }
         }
 
         searchButton.addEventListener('click', handleSearch);
         searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
+        searchTypeRadios.forEach(radio => radio.addEventListener('change', updateUIForMode));
+
         document.addEventListener('DOMContentLoaded', () => { 
+            updateUIForMode(); 
             populateBangs();
             displayRandomAd(); 
             checkAutoSearch();
-            updateUIForMode();
         });
-
-        searchTypeRadios.forEach(radio => radio.addEventListener('change', updateUIForMode));
     </script>
 </body>
 </html>
