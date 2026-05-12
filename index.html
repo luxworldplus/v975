@@ -3,38 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxworld Search</title>
+    <title>Luxworld Search - Silver Edition</title>
     
-    <!-- SVG Favicon Generated from Logo CSS/Code -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2393c363' /%3E%3Cg transform='translate(50 45) rotate(45)'%3E%3Ccircle cx='0' cy='0' r='28' fill='none' stroke='%23f0e34a' stroke-width='8' /%3E%3Cline x1='0' y1='26' x2='0' y2='40' stroke='%23f0e34a' stroke-width='10' stroke-linecap='round' /%3E%3C/g%3E%3Cg transform='translate(50 45) rotate(45) scale(0.7) translate(-25 -25)'%3E%3Cpath fill='white' d='M47.25,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75V9.5c0-0.414-0.336-0.75-0.75-0.75s-0.75,0.336-0.75,0.75v8.5 c0,0.414-0.336,0.75-0.75,0.75h-8.5c-0.414,0-0.75,0.336-0.75,0.75v1.5c0,0.414,0.336,0.75,0.75,0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v8.5c0,0.414,0.336,0.75,0.75,0.75s0.75-0.336,0.75-0.75v-8.5c0-0.414,0.336,0.75,0.75-0.75h8.5 c0.414,0,0.75-0.336,0.75-0.75v-1.5C48,19.086,47.664,18.75,47.25,18.75z M25,48.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,48.586,24.586,48.25,25,48.25z M25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C24.25,42.586,24.586,42.25,25,42.25z M25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C24.25,36.586,24.586,36.25,25,36.25z M25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,30.586,24.586,30.25,25,30.25z M36.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C35.5,42.586,35.836,42.25,36.25,42.25z M36.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C35.5,36.586,35.836,36.25,36.25,36.25z M36.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C35.5,30.586,35.836,30.25,36.25,30.25z M47.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C46.5,42.586,46.836,42.25,47.25,42.25z M47.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C46.5,36.586,46.836,36.25,47.25,36.25z M47.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C46.5,30.586,46.836,30.25,47.25,30.25z M58.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C57.5,42.586,57.836,42.25,58.25,42.25z M58.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C57.5,36.586,57.836,36.25,58.25,36.25z M58.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C57.5,30.586,57.836,30.25,58.25,30.25z M18.75,24.25h-8.5 c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,23.914,19.164,24.25,18.75,24.25z M18.75,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75 v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5 C19.5,18.414,19.164,18.75,18.75,18.75z M18.75,13.25h-8.5c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75 s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,12.914,19.164,13.25,18.75,13.25z'/%3E%3C/g%3E%3C/svg%3E">
+    <!-- SVG Favicon: Fixed to Green (#93c363) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2393c363' /%3E%3Cg transform='translate(50 45) rotate(45)'%3E%3Ccircle cx='0' cy='0' r='28' fill='none' stroke='%23f0e34a' stroke-width='8' /%3E%3Cline x1='0' y1='26' x2='0' y2='40' stroke='%23f0e34a' stroke-width='10' stroke-linecap='round' /%3E%3C/g%3E%3C/svg%3E">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://js.puter.com/v2/"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary-bg: #93c363;
+            --primary-gradient: linear-gradient(145deg, #7db145, #5f8a33);
+            --loader-color: #6D9F3C;
+            --theme-name: 'Green Edition';
+        }
+
+        /* Silver Edition Variables */
+        body.silver-mode {
+            --primary-bg: #C0C0C0;
+            --primary-gradient: linear-gradient(145deg, #d1d1d1, #8e8e8e);
+            --loader-color: #8e8e8e;
+            --theme-name: 'Silver Edition';
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F3F4F6;
             user-select: none;
             overflow-x: hidden;
+            transition: background-color 0.3s ease;
         }
+
         .search-container {
-            background: linear-gradient(145deg, #7db145, #5f8a33);
+            background: var(--primary-gradient);
             border-radius: 1.5rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: background 0.3s ease;
         }
+
         .search-button {
             background-color: #FFD700;
             color: #4A5568;
         }
+
         .search-button:hover {
             background-color: #f0c800;
         }
+
         .search-button:disabled {
             background-color: #e0c000;
             cursor: not-allowed;
             opacity: 0.7;
         }
+
         .ad-card {
             background: white;
             border-radius: 1rem;
@@ -42,32 +65,39 @@
             transition: transform 0.2s;
             border: 1px solid #e5e7eb;
         }
+
         .ad-card:hover {
             transform: translateY(-2px);
         }
+
         .result-card {
             background: white;
             border-radius: 1rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
+
         .result-link {
             color: #3B82F6;
         }
+
         .result-link:hover {
             text-decoration: underline;
         }
+
         .loader {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #6D9F3C;
+            border-top: 4px solid var(--loader-color);
             border-radius: 50%;
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
         .hidden-pixel {
             position: absolute;
             width: 1px;
@@ -76,11 +106,13 @@
             pointer-events: none;
             clip: rect(0, 0, 0, 0);
         }
+
         .image-gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1rem;
         }
+
         .image-gallery-item {
             aspect-ratio: 16 / 9;
             background-color: #E5E7EB;
@@ -90,6 +122,7 @@
             background-position: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+
         #pointsBadge {
             position: fixed;
             top: 20px;
@@ -98,6 +131,7 @@
             transform: translateX(150%);
             transition: transform 0.3s ease-out;
         }
+
         #pointsBadge.show {
             transform: translateX(0);
         }
@@ -114,6 +148,7 @@
             justify-content: center;
             padding: 20px;
         }
+
         #bangsModal.active, #securityModal.active, #defaultModal.active { display: flex; }
 
         /* Metric Integrated UI */
@@ -125,13 +160,37 @@
             border: 2px solid #3a0058;
             box-shadow: 0 0 30px rgba(160, 32, 240, 0.3);
         }
+
         .metric-accent { color: #d46bff; text-shadow: 0 0 10px #a020f0; }
 
-        /* Copy Button Animation */
         .copy-btn:active { transform: scale(0.9); }
+
+        /* Theme Toggle Button */
+        #themeToggleBtn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        #themeToggleBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
-<body class="min-h-screen p-4 sm:p-8 relative">
+<body class="min-h-screen p-4 sm:p-8 relative silver-mode">
 
     <div id="hiddenProcessor"></div>
 
@@ -154,7 +213,6 @@
             <p class="text-sm text-gray-500 mb-6">Add one of these URLs to your browser's "Custom Search Engines" settings.</p>
             
             <div class="space-y-4">
-                <!-- Option 1: Research -->
                 <div class="group">
                     <label class="text-[10px] uppercase font-black text-blue-600 mb-1 block tracking-widest">Standard / Research</label>
                     <div class="flex gap-2">
@@ -167,7 +225,6 @@
                     </div>
                 </div>
 
-                <!-- Option 2: Find Web -->
                 <div class="group">
                     <label class="text-[10px] uppercase font-black text-green-600 mb-1 block tracking-widest">Website Finder Mode</label>
                     <div class="flex gap-2">
@@ -180,7 +237,6 @@
                     </div>
                 </div>
 
-                <!-- Option 3: Images -->
                 <div class="group">
                     <label class="text-[10px] uppercase font-black text-purple-600 mb-1 block tracking-widest">Image Generation Mode</label>
                     <div class="flex gap-2">
@@ -211,7 +267,7 @@
             <div class="overflow-y-auto p-6">
                 <p class="text-sm text-gray-500 mb-6">Search directly across 50+ platforms by typing a prefix. Example: <code class="bg-gray-100 px-1 rounded">!a iphone</code></p>
                 <div id="bangsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <!-- Bangs injected here -->
+                    <!-- Bangs injected via JS -->
                 </div>
             </div>
         </div>
@@ -222,7 +278,6 @@
     </div>
 
     <div class="container mx-auto max-w-3xl relative">
-
         <div class="flex justify-end mb-4">
             <a href="https://rewards.bing.com/welcome?rh=41E13B2&ref=rafsrchae&form=ML2XE3&OCID=ML2XE3&PUBL=RewardsDO&CREA=ML2XE3" 
                target="_blank" 
@@ -236,8 +291,9 @@
 
         <header class="text-center mb-8 pt-4">
             <div class="inline-block p-4 rounded-3xl">
+                <!-- Original Logo with Theme variable Support -->
                 <svg id="mainLogoSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-24 h-24 mx-auto">
-                    <rect width="100" height="100" rx="20" fill="#93c363" />
+                    <rect id="logoRect" width="100" height="100" rx="20" fill="var(--primary-bg)" style="transition: fill 0.3s ease;" />
                     <g transform="translate(50 45) rotate(45)">
                         <circle cx="0" cy="0" r="28" fill="none" stroke="#f0e34a" stroke-width="8" />
                         <line x1="0" y1="26" x2="0" y2="40" stroke="#f0e34a" stroke-width="10" stroke-linecap="round" />
@@ -245,7 +301,8 @@
                     <g transform="translate(50 45) rotate(45) scale(0.7) translate(-25 -25)">
                         <path fill="white" d="M47.25,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75V9.5c0-0.414-0.336-0.75-0.75-0.75s-0.75,0.336-0.75,0.75v8.5 c0,0.414-0.336,0.75-0.75,0.75h-8.5c-0.414,0-0.75,0.336-0.75,0.75v1.5c0,0.414,0.336,0.75,0.75,0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v8.5c0,0.414,0.336,0.75,0.75,0.75s0.75-0.336,0.75-0.75v-8.5c0-0.414,0.336,0.75,0.75-0.75h8.5 c0.414,0,0.75-0.336,0.75-0.75v-1.5C48,19.086,47.664,18.75,47.25,18.75z M25,48.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,48.586,24.586,48.25,25,48.25z M25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C24.25,42.586,24.586,42.25,25,42.25z M25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C24.25,36.586,24.586,36.25,25,36.25z M25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C24.25,30.586,24.586,30.25,25,30.25z M36.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C35.5,42.586,35.836,42.25,36.25,42.25z M36.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C35.5,36.586,35.836,36.25,36.25,36.25z M36.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C35.5,30.586,35.836,30.25,36.25,30.25z M47.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C46.5,42.586,46.836,42.25,47.25,42.25z M47.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C46.5,36.586,46.836,36.25,47.25,36.25z M47.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C46.5,30.586,46.836,30.25,47.25,30.25z M58.25,42.25 c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5 C57.5,42.586,57.836,42.25,58.25,42.25z M58.25,36.25c0.414,0,0.75,0.336,0.75,0.75v1.5c0,0.414-0.336,0.75-0.75,0.75 s-0.75-0.336-0.75-0.75v-1.5C57.5,36.586,57.836,36.25,58.25,36.25z M58.25,30.25c0.414,0,0.75,0.336,0.75,0.75v1.5 c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75v-1.5C57.5,30.586,57.836,30.25,58.25,30.25z M18.75,24.25h-8.5 c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5 c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,23.914,19.164,24.25,18.75,24.25z M18.75,18.75h-8.5c-0.414,0-0.75-0.336-0.75-0.75 v-1.5c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5 C19.5,18.414,19.164,18.75,18.75,18.75z M18.75,13.25h-8.5c-0.414,0-0.75-0.336-0.75-0.75v-1.5c0-0.414,0.336-0.75,0.75-0.75 s0.75,0.336,0.75,0.75v0.75h8.5c0.414,0,0.75,0.336,0.75,0.75v1.5C19.5,12.914,19.164,13.25,18.75,13.25z'/%3E%3C/g%3E%3C/svg%3E" />
                 <h1 class="text-3xl font-bold text-gray-800 tracking-wide mt-4 uppercase">Luxworld Search</h1>
-                <p class="text-sm font-medium text-gray-600 tracking-widest uppercase">By Luxworld+</p>
+                <p class="text-sm font-medium text-gray-600 tracking-widest uppercase">By LUXWORLD+</p>
+                <p id="themeBadge" class="text-[10px] font-black text-gray-400 mt-1 uppercase tracking-[0.2em] hidden">Silver Edition</p>
             </div>
         </header>
 
@@ -294,8 +351,13 @@
         </footer>
     </div>
 
+    <!-- Theme Switcher Button -->
+    <button id="themeToggleBtn" onclick="toggleTheme()">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+        <span>Switch to Green Edition</span>
+    </button>
+
     <script>
-        // --- UI & CORE ELEMENTS ---
         const searchInput = document.getElementById('searchInput');
         const searchButton = document.getElementById('searchButton');
         const adContainer = document.getElementById('adContainer');
@@ -306,8 +368,56 @@
         const pointsBadge = document.getElementById('pointsBadge');
         const bangsGrid = document.getElementById('bangsGrid');
         const securityModal = document.getElementById('securityModal');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeBadge = document.getElementById('themeBadge');
 
         const SELECTED_MODEL = 'gemini-2.5-flash';
+
+        // --- THEME & HISTORY LOGIC ---
+        function initStorage() {
+            // Check theme expiration (May 12, 2027)
+            const expiryDate = new Date('2027-05-12T23:59:59');
+            const isExpired = new Date() > expiryDate;
+
+            if (isExpired) {
+                // After May 12, 2027, only Green Edition is allowed
+                themeToggleBtn.style.display = 'none';
+                applyTheme('green');
+                localStorage.setItem('lux_theme', 'green');
+                return;
+            }
+
+            // Load theme preference (Default to Silver)
+            const savedTheme = localStorage.getItem('lux_theme') || 'silver';
+            applyTheme(savedTheme);
+        }
+
+        function toggleTheme() {
+            const expiryDate = new Date('2027-05-12T23:59:59');
+            if (new Date() > expiryDate) return; // Prevent switching after expiry
+
+            const current = document.body.classList.contains('silver-mode') ? 'green' : 'silver';
+            applyTheme(current);
+            localStorage.setItem('lux_theme', current);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'silver') {
+                document.body.classList.add('silver-mode');
+                themeBadge.classList.remove('hidden');
+                themeToggleBtn.querySelector('span').textContent = 'Switch to Classic';
+            } else {
+                document.body.classList.remove('silver-mode');
+                themeBadge.classList.add('hidden');
+                themeToggleBtn.querySelector('span').textContent = 'Switch to Silver Edition';
+            }
+        }
+
+        function logSearch(query) {
+            const history = JSON.parse(localStorage.getItem('lux_history') || '[]');
+            history.push({ query: query, date: new Date().toISOString() });
+            localStorage.setItem('lux_history', JSON.stringify(history));
+        }
 
         // --- CORE UI FUNCTIONS ---
         function updateUIForMode() {
@@ -315,7 +425,6 @@
             searchButton.textContent = mode === 'domain' ? 'Intel Search' : 'Search';
         }
 
-        // --- ADS LIST (8 ADS) ---
         const ADS_LIST = [
             { title: "Visit LUXWORLD+", description: "Luxury travel tips, points, and miles mastery.", url: "https://www.luxworldplus.com" },
             { title: "AMEX Platinum Card", description: "Earn 80k points with the ultimate travel card.", url: "https://www.luxworldplus.com/offers/amex" },
@@ -327,7 +436,6 @@
             { title: "Delta AMEX", description: "15% off award flights. Get your Delta Card Now.", url: "https://www.luxworldplus.com/offers/amex/delta" }
         ];
 
-        // --- BANGS SYSTEM ---
         const BANGS = {
             "!ai": { url: "https://ai.luxworldplus.com/?q=%s", name: "LUXWORLD AI" },
             "!g": { url: "https://www.google.com/search?q=%s", name: "Google" },
@@ -381,7 +489,6 @@
             "!brave": { url: "https://search.brave.com/search?q=%s", name: "Brave" }
         };
 
-        // --- REDIRECT MAP ---
         const REDIRECT_MAP = {
             "luxworld+": "https://luxworldplus.com",
             "luxworld plus": "https://luxworldplus.com",
@@ -405,7 +512,6 @@
             "loader edu": "https://edu.luxworldplus.com/loader-edu"
         };
 
-        // --- CONVERSION DATA ---
         const CONVERSIONS = {
             Length: { "m": 1, "km": 1000, "cm": 0.01, "mm": 0.001, "mi": 1609.34, "ft": 0.3048, "in": 0.0254 },
             Weight: { "kg": 1, "g": 0.001, "lb": 0.4535, "oz": 0.0283 },
@@ -483,6 +589,7 @@
 
         // --- SEARCH CORE ---
         async function handleSearchDefault(rawQuery, searchType) {
+            logSearch(rawQuery); // Log search history
             triggerHiddenPixel(rawQuery);
             resultsContainer.innerHTML = '';
             loader.classList.remove('hidden');
@@ -543,17 +650,17 @@
 
             if (bang.startsWith('!')) {
                 if (bang === '!' && term) {
-                    window.open(`https://www.google.com/search?q=${encodeURIComponent(term)}&btnI=1`, '_blank');
+                    window.open(`https://www.google.com/search?q=${encodeURIComponent(term)}&btnI=1`, '_self');
                     return;
                 }
                 if (BANGS[bang]) {
-                    window.open(BANGS[bang].url.replace('%s', encodeURIComponent(term || ' ')), '_blank');
+                    window.open(BANGS[bang].url.replace('%s', encodeURIComponent(term || ' ')), '_self');
                     return;
                 }
             }
 
             if (REDIRECT_MAP[rawQuery.toLowerCase()]) {
-                window.open(REDIRECT_MAP[rawQuery.toLowerCase()], '_blank');
+                window.open(REDIRECT_MAP[rawQuery.toLowerCase()], '_self');
                 return;
             }
 
@@ -566,7 +673,8 @@
         function detectMath(q) { return /^[0-9+\-*/().\s^%]+$/.test(q) && /[+\-*/]/.test(q); }
         function renderCalculator(q) {
             try {
-                const res = eval(q);
+                // Using standard Function for safer calc than eval
+                const res = new Function('return ' + q)();
                 resultsContainer.innerHTML = `<div class="metric-card shadow-xl"><h2 class="text-xs uppercase font-bold tracking-widest metric-accent mb-4">Calculator Intelligence</h2><div class="text-5xl font-black mb-2">${res}</div><div class="text-gray-500 font-mono">${q}</div></div>`;
                 displayRandomAd();
             } catch(e) { handleSearchDefault(q, 'research'); }
@@ -604,14 +712,22 @@
         function displayDomainResults(dataList) {
             const main = dataList[0];
             const url = `https://${main.domain}`;
-            const proxy = `https://${main.domain.replace(/\./g, '-')}.translate.goog`;
-            resultsContainer.innerHTML = `<div class="result-card p-8 flex flex-col items-center"><img src="${main.logo}" class="w-20 h-20 rounded-2xl mb-4 bg-white p-1 border shadow-sm" onerror="this.style.display='none'"><h2 class="text-2xl font-bold mb-1 text-gray-800">${main.name}</h2><a href="${url}" target="_blank" class="result-link text-xl font-semibold mb-6">${main.domain}</a><div class="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md"><a href="${url}" target="_blank" class="flex-grow bg-green-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-green-700 shadow-md text-center">Visit Site</a><a href="${proxy}" target="_blank" class="flex-grow bg-blue-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-blue-700 shadow-md text-center">Private Mode</a></div></div>`;
+            resultsContainer.innerHTML = `
+                <div class="result-card p-8 flex flex-col items-center">
+                    <img src="${main.logo}" class="w-20 h-20 rounded-2xl mb-4 bg-white p-1 border shadow-sm" onerror="this.style.display='none'">
+                    <h2 class="text-2xl font-bold mb-1 text-gray-800">${main.name}</h2>
+                    <a href="${url}" target="_self" class="result-link text-xl font-semibold mb-6">${main.domain}</a>
+                    <div class="w-full max-w-md">
+                        <a href="${url}" target="_self" class="block w-full bg-green-600 text-white font-bold py-3 px-8 rounded-xl transition hover:bg-green-700 shadow-md text-center">
+                            Visit Site
+                        </a>
+                    </div>
+                </div>`;
         }
 
         function checkAutoSearch() {
             const urlParams = new URLSearchParams(window.location.search);
             let query = urlParams.get('q');
-            if (!query && document.referrer) { try { const refUrl = new URL(document.referrer); query = refUrl.searchParams.get('q'); } catch (e) {} }
             if (query) { searchInput.value = query; setTimeout(() => handleSearch(), 500); }
         }
 
@@ -620,6 +736,7 @@
         searchTypeRadios.forEach(radio => radio.addEventListener('change', updateUIForMode));
 
         document.addEventListener('DOMContentLoaded', () => { 
+            initStorage();
             updateUIForMode(); 
             populateBangs();
             displayRandomAd(); 
